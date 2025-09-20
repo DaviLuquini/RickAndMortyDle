@@ -27,7 +27,7 @@ var playersTable = document.getElementById('playersTable');
 
 async function getSessionInfo() {
     const token = localStorage.getItem('token');
-    const response = await fetch('https://p01--rickmortyquizverse--2fzvm2y2h546.code.run/api/Login/chec10k-session', {
+    const response = await fetch('https://p01--rickmortyquizverse--2fzvm2y2h546.code.run/api/Login/check-session', {
         headers: {
             'Authorization': `Bearer ${token}`,
         },
