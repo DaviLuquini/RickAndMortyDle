@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-play-button',
-  imports: [CommonModule],
+  imports: [CommonModule, LucideAngularModule],
   templateUrl: './play-button.html',
   styleUrl: './play-button.scss'
 })
 export class PlayButton {
   @Input() onClick!: () => void;
-  @Input() className: string = '';
 }

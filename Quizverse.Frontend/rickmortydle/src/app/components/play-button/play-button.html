@@ -1,28 +1,26 @@
 <button (click)="onClick()" [ngClass]="[
-    'group relative flex items-center overflow-hidden cursor-pointer',
+    'group min-w-100 relative flex items-center overflow-hidden cursor-pointer',
     'bg-gradient-to-r from-cyan-400 via-green-400 to-lime-400',
     'hover:from-cyan-300 hover:via-green-300 hover:to-lime-300',
     'active:from-cyan-500 active:via-green-500 active:to-lime-500',
     'shadow-2xl hover:shadow-cyan-400/50 active:shadow-lg',
     'transition-all duration-300 ease-out',
     'transform hover:scale-110 active:scale-95',
-    'border-2 border-cyan-300 hover:border-lime-300',
-    className
+    'border-2 border-cyan-300 hover:border-lime-300'
   ]" [ngStyle]="{
     borderRadius: '3rem',
     minHeight: '4.5rem',
-    minWidth: '14rem',
     filter: 'drop-shadow(0 0 20px rgba(34, 211, 238, 0.4))'
   }">
-    <!-- Animated background portal effect -->
-    <div class="absolute inset-0 rounded-full opacity-30
+     <!-- Animated background portal effect -->
+     <div class="absolute inset-0 rounded-full opacity-30
            bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500
            animate-spin
            group-hover:animate-ping
            transition-all duration-500" [ngStyle]="{ animationDuration: '8s' }"></div>
 
-    <!-- Icon Circle Section -->
-    <div class="relative flex items-center justify-center
+     <!-- Icon Circle Section -->
+     <div class="relative flex items-center justify-center
            w-20 h-20 rounded-full
            bg-gradient-to-br from-lime-300 via-green-400 to-cyan-400
            group-hover:from-lime-200 group-hover:via-green-300 group-hover:to-cyan-300
@@ -34,14 +32,14 @@
            ml-1
            group-hover:rotate-12
            group-active:rotate-0">
-        <!-- Inner glow effect -->
-        <div class="absolute inset-2 rounded-full
+          <!-- Inner glow effect -->
+          <div class="absolute inset-2 rounded-full
              bg-gradient-to-br from-white/40 to-transparent
              group-hover:from-white/60
              transition-all duration-300"></div>
 
-        <!-- Rotating border effect -->
-        <div class="absolute inset-0 rounded-full
+          <!-- Rotating border effect -->
+          <div class="absolute inset-0 rounded-full
              border-2 border-transparent
              bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400
              group-hover:animate-spin
@@ -52,38 +50,38 @@
         padding: '2px'
       }"></div>
 
-        <div class="relative z-10 text-slate-800
+          <div class="relative z-10 text-slate-800
              group-hover:text-slate-700
              group-active:text-slate-900
              transition-all duration-300
              group-hover:scale-110
              drop-shadow-sm">
-            <ng-content select="[icon]"></ng-content>
-        </div>
-    </div>
+               <ng-content select="[icon]"></ng-content>
+          </div>
+     </div>
 
-    <!-- Button Content Area -->
-    <div class="flex-1 px-8 py-4 text-center relative z-10">
-        <span class="text-slate-800 font-bold text-xl
-             group-hover:text-slate-700
-             group-active:text-slate-900
-             transition-all duration-300
-             drop-shadow-lg
-             tracking-wide
-             text-shadow-sm">
-            <ng-content></ng-content>
-        </span>
-    </div>
+     <!-- Button Content Area -->
+     <div class="flex-1 px-8 py-4 text-center relative z-10">
+          <div class="flex flex-col items-start text-slate-800 font-bold text-xl
+                 group-hover:text-slate-700
+                 group-active:text-slate-900
+                 transition-all duration-300
+                 drop-shadow-lg
+                 tracking-wide
+                 text-shadow-sm">
+                 <ng-content></ng-content>
+          </div>
+     </div>
 
-    <!-- Sci-fi highlight overlay -->
-    <div class="absolute inset-0 rounded-full
+     <!-- Sci-fi highlight overlay -->
+     <div class="absolute inset-0 rounded-full
            bg-gradient-to-t from-transparent via-white/20 to-white/40
            group-hover:via-white/30 group-hover:to-white/60
            transition-all duration-300
            pointer-events-none"></div>
 
-    <!-- Outer glow ring -->
-    <div class="absolute inset-0 rounded-full
+     <!-- Outer glow ring -->
+     <div class="absolute inset-0 rounded-full
            ring-4 ring-cyan-400/30
            group-hover:ring-lime-400/60
            group-active:ring-green-500/40
@@ -91,16 +89,16 @@
            pointer-events-none
            group-hover:ring-8"></div>
 
-    <!-- Particle effect overlay -->
-    <div class="absolute inset-0 rounded-full overflow-hidden pointer-events-none">
-        <div class="absolute top-2 left-4 w-1 h-1 bg-white rounded-full
+     <!-- Particle effect overlay -->
+     <div class="absolute inset-0 rounded-full overflow-hidden pointer-events-none">
+          <div class="absolute top-2 left-4 w-1 h-1 bg-white rounded-full
              animate-ping
              group-hover:animate-bounce" [ngStyle]="{ animationDelay: '0s' }"></div>
-        <div class="absolute top-6 right-8 w-1 h-1 bg-lime-200 rounded-full
+          <div class="absolute top-6 right-8 w-1 h-1 bg-lime-200 rounded-full
              animate-ping
              group-hover:animate-bounce" [ngStyle]="{ animationDelay: '0.5s' }"></div>
-        <div class="absolute bottom-4 left-12 w-1 h-1 bg-cyan-200 rounded-full
+          <div class="absolute bottom-4 left-12 w-1 h-1 bg-cyan-200 rounded-full
              animate-ping
              group-hover:animate-bounce" [ngStyle]="{ animationDelay: '1s' }"></div>
-    </div>
+     </div>
 </button>
