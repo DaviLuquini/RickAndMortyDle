@@ -3,7 +3,19 @@ import { Home } from './pages/home/home';
 
 export const routes: Routes = [
     {
-        path: '',
+        path: 'home',
         component: Home
-    }
+    },
+    {
+        path: "classic",
+        loadComponent: () =>
+            import("./pages/game-modes/classic/classic").then(
+                (m) => m.Classic
+            ),
+    },
+    {
+        path: "",
+        redirectTo: "home",
+        pathMatch: "full",
+    },
 ];
