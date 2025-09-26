@@ -1,20 +1,19 @@
-<div class="space-y-4">
-  <!-- Input -->
-  <div class="relative">
-    <input 
-      type="text"
-      placeholder="Digite o nome do personagem..."
-      class="h-14 w-full text-lg px-6 bg-white/10 border-2 border-gray-400 
-             focus:border-primary rounded-lg transition-all duration-300"
-    />
-  </div>
+<div #dropdownWrapper>
+  <input type="text" placeholder="Type character name..." class="h-14 w-full rounded-lg border-2 border-slate-700 bg-slate-800 px-6 
+         text-lg text-slate-200 placeholder-slate-500 outline-none
+         transition-all duration-300 ease-in-out
+         focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/50" [value]="searchText()"
+    (input)="searchText.set($any($event.target).value)" />
 
-  <!-- Button -->
-  <button 
-    class="w-full h-14 text-lg font-semibold bg-gradient-to-r from-primary to-accent 
-           hover:from-primary/90 hover:to-accent/90 transition-all duration-300 
-           shadow-lg hover:shadow-xl rounded-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-  >
-    Enviar Resposta
-  </button>
+  @if(filteredInputCharacters().length > 0) {
+  <ul class="max-h-60 overflow-y-auto rounded-lg bg-slate-700 text-slate-200 shadow-lg">
+    @for (character of filteredInputCharacters(); track $index) {
+    <li class="px-4 py-2 hover:bg-cyan-500 cursor-pointer"
+      (click)="getCorrectCharacter(); searchText.set(character.name)">
+      <img [src]="character.image" alt="{{ character.name }}" class="inline-block w-12 h-12 rounded-lg mr-2" />
+      {{ character.name }}
+    </li>
+    }
+  </ul>
+  }
 </div>
