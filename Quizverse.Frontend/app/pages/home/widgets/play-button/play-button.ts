@@ -6,7 +6,8 @@ import { LucideAngularModule } from 'lucide-angular';
   selector: 'app-play-button',
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './play-button.html',
-  styleUrl: './play-button.scss'
+  styleUrl: './play-button.css'
 })
 export class PlayButton {
+
 }

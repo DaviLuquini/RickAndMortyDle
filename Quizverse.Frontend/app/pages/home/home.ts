@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   selector: 'app-home',
   imports: [CommonModule, RouterModule, PlayButton, LucideAngularModule, Title],
   templateUrl: './home.html',
-  styleUrl: './home.scss'
+  styleUrl: './home.css'
 })
 export class Home {
   readonly Landmark = Landmark;

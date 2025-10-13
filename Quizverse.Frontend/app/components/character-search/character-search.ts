@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-character-search',
   imports: [CommonModule],
   templateUrl: './character-search.html',
-  styleUrl: './character-search.scss'
+  styleUrl: './character-search.css'
 })
 export class CharacterSearch {
   private readonly charactersService = inject(CharacterService);
@@ -24,10 +24,9 @@ export class CharacterSearch {
       const allChars = this.characters();
       if (!allChars || allChars.length === 0) return;
 
-      const top100 = [...allChars]
-        .sort((a, b) => (b.episodeCount ?? 0) - (a.episodeCount ?? 0))
-        .slice(0, 100);
+      this.availableCharacters.set(allChars);
 
+      const top100 = this.getMostFamousCharacters(100);
       this.availableCharacters.set(top100);
     });
   }

@@ -3,13 +3,9 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "rickmortydle": {
+    "rickmortydle.Frontend": {
       "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        }
-      },
+      "schematics": {},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -17,13 +13,13 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "outputPath": "dist/products-service.frontend",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
+                "assets": [
               {
                 "glob": "**/*",
                 "input": "public"
@@ -42,12 +38,7 @@
             "styles": [
               "src/styles.scss",
               "src/assets/fonts/style.scss"
-            ],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            ]    
           },
           "configurations": {
             "production": {
@@ -77,10 +68,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "rickmortydle:build:production"
+              "buildTarget": "rickmortydle.Frontend:build:production"
             },
             "development": {
-              "buildTarget": "rickmortydle:build:development"
+              "buildTarget": "rickmortydle.Frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -96,16 +87,10 @@
               "zone.js/testing"
             ],
             "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
                 "input": "public"
-              },
-              {
-                "glob": "**/*",
-                "input": "src/assets/fonts",
-                "output": "assets/fonts"
               }
             ],
             "styles": [
