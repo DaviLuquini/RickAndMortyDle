@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { PlayButton } from "./widgets/play-button/play-button";
 import { Image, Landmark, Laugh, LucideAngularModule, MessageSquareQuote } from "lucide-angular";
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Title } from "../../components/title/title";
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +17,7 @@ export class Home {
   readonly Laugh = Laugh;
   readonly Image = Image;
 
-  constructor(private router: Router) {}
+  constructor(private readonly router: Router) {}
 
   navigateTo(url: string) {
     this.router.navigate([url]);

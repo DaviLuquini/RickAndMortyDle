@@ -8,10 +8,10 @@ import { ICharacter, ICharactersApiResponse } from '../models/character.type';
     providedIn: 'root'
 })
 export class CharacterService {
-    private baseUrl = 'https://rickandmortyapi.com/api/character';
-    private totalPages = 42;
+    private readonly baseUrl = 'https://rickandmortyapi.com/api/character';
+    private readonly totalPages = 20;
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
     getAllCharacters(): Observable<ICharacter[]> {
         const requests: Observable<ICharactersApiResponse>[] = [];

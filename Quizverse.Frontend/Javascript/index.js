@@ -68,13 +68,13 @@ async function getAllCharactersApi() {
     for (let page = 1; page <= totalPages; page++) {
         try {
             const response = await fetch(`https://rickandmortyapi.com/api/character/?page=${page}`);
-            const data = await response.json(); 
+            const data = await response.json();
 
             const characters = data.results.map(characterData => {
                 const episodeCount = characterData.episode ? characterData.episode.length : 0;
                 const location = characterData.location ? new Location(characterData.location.name, characterData.location.url) : null;
                 const origin = characterData.origin ? new Origin(characterData.origin.name, characterData.origin.url) : null;
-                const info = new Info(null, null, null, null); 
+                const info = new Info(null, null, null, null);
                 const character = new Character(
                     characterData.id,
                     characterData.name,
@@ -114,124 +114,124 @@ async function getAllCharactersApi() {
 
 function GetMostFamousCharacters(characters, count) {
     const sortedCharacters = characters.sort((a, b) => b.episodeCount - a.episodeCount);
-    
+
     return sortedCharacters.slice(0, count);
 }
 
 
 
-    function getCorrectCharacter() {
-        const randomIndex = Math.floor(Math.random() * availableCharacters.length);
-        correctCharacter = availableCharacters[randomIndex];
-      
-        return correctCharacter;
-    }
+function getCorrectCharacter() {
+    const randomIndex = Math.floor(Math.random() * availableCharacters.length);
+    correctCharacter = availableCharacters[randomIndex];
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const easyMode = document.getElementById('easy-mode');
-        const mediumMode = document.getElementById('medium-mode');
-        const hardMode = document.getElementById('hard-mode');
-        const impossibleMode = document.getElementById('impossible-mode');
+    return correctCharacter;
+}
 
-        easyMode.addEventListener('click', function() {
-            gameMode = 'easy';
-            easyGameMode = true;
-            initializeAvailableCharacters(gameMode);
-        });
-    
-        mediumMode.addEventListener('click', function() {
-            gameMode = 'medium';
-            mediumGameMode = true;
-            initializeAvailableCharacters(gameMode);
-        });
-    
-        hardMode.addEventListener('click', function() {
-            gameMode = 'hard';
-            hardGameMode = true;
-            initializeAvailableCharacters(gameMode);
-        });
-    
-        impossibleMode.addEventListener('click', function() {
-            gameMode = 'impossible';
-            impossibleGameMode = true;
-            initializeAvailableCharacters(gameMode);
-        });
+document.addEventListener('DOMContentLoaded', function () {
+    const easyMode = document.getElementById('easy-mode');
+    const mediumMode = document.getElementById('medium-mode');
+    const hardMode = document.getElementById('hard-mode');
+    const impossibleMode = document.getElementById('impossible-mode');
+
+    easyMode.addEventListener('click', function () {
+        gameMode = 'easy';
+        easyGameMode = true;
+        initializeAvailableCharacters(gameMode);
     });
 
-    async function initializeAvailableCharacters(gameMode) {
-        const characters = await getAllCharactersApi();
-
-        availableCharacters.length = 0; 
-    
-        if (gameMode === 'easy') {
-            var newCharacteres = GetMostFamousCharacters(characters, 20); 
-            availableCharacters.push(...newCharacteres); 
-        } else if (gameMode === 'medium') {
-            var newCharacteres = GetMostFamousCharacters(characters, 50); 
-            availableCharacters.push(...newCharacteres); 
-        } else if (gameMode === 'hard') {
-            var newCharacteres = GetMostFamousCharacters(characters, 100); 
-            availableCharacters.push(...newCharacteres); 
-        } else if (gameMode === 'impossible') {
-            availableCharacters.push(...characters); 
-        } else {
-            throw new Error('Modo de jogo inválido.');
-        }
-    
-        getCorrectCharacter();
-    }
-
-    async function updateAvailableCharacters(character) {
-        const characterId = character.id; 
-        const index = availableCharacters.findIndex(item => item.id === characterId);
-        if (index !== -1) {
-            availableCharacters.splice(index, 1);
-        }
-    }
-
-    $(function() {
-        $("#searchInput").autocomplete({
-            source: function(request, response) {
-                var filtered = $.map(availableCharacters, function(item) {
-                    if (item.name.toLowerCase().startsWith(request.term.toLowerCase())) {
-                        return {
-                            name: item.name,
-                            id: item.id,
-                            image: item.image
-                        };
-                    }
-                });
-                response(filtered);
-            },
-            search: function(event, ui) {
-                $("#searchInput").addClass('image');
-            },
-            select: function(event, ui) {
-                $("#searchInput").removeClass('image');
-                updateBoxes(ui.item.id);
-            },
-            open: function(event, ui) {
-                $(".ui-menu-item").each(function(index) {
-                    var item = ui.item;
-                    $(this).html("<img src='" + item.image + "' style='width: 302px; height: 30px; margin-right: 10px;' />" + item.name);
-                });
-            }
-        }).data("ui-autocomplete")._renderItem = function(ul, item) {
-            return $("<li>")
-                .append("<div><img src='" + item.image + "' style='width: 80px; height: 80px; margin-right: 10px;' />" + item.name + "</div>")
-                .appendTo(ul);
-        };
-    });
-    
-    document.getElementById('searchInput').addEventListener('keyup', function(event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-
-            updateBoxes(this.value); 
-        }
+    mediumMode.addEventListener('click', function () {
+        gameMode = 'medium';
+        mediumGameMode = true;
+        initializeAvailableCharacters(gameMode);
     });
 
-  window.onload = function () {
+    hardMode.addEventListener('click', function () {
+        gameMode = 'hard';
+        hardGameMode = true;
+        initializeAvailableCharacters(gameMode);
+    });
+
+    impossibleMode.addEventListener('click', function () {
+        gameMode = 'impossible';
+        impossibleGameMode = true;
+        initializeAvailableCharacters(gameMode);
+    });
+});
+
+async function initializeAvailableCharacters(gameMode) {
+    const characters = await getAllCharactersApi();
+
+    availableCharacters.length = 0;
+
+    if (gameMode === 'easy') {
+        var newCharacteres = GetMostFamousCharacters(characters, 20);
+        availableCharacters.push(...newCharacteres);
+    } else if (gameMode === 'medium') {
+        var newCharacteres = GetMostFamousCharacters(characters, 50);
+        availableCharacters.push(...newCharacteres);
+    } else if (gameMode === 'hard') {
+        var newCharacteres = GetMostFamousCharacters(characters, 100);
+        availableCharacters.push(...newCharacteres);
+    } else if (gameMode === 'impossible') {
+        availableCharacters.push(...characters);
+    } else {
+        throw new Error('Modo de jogo inválido.');
+    }
+
+    getCorrectCharacter();
+}
+
+async function updateAvailableCharacters(character) {
+    const characterId = character.id;
+    const index = availableCharacters.findIndex(item => item.id === characterId);
+    if (index !== -1) {
+        availableCharacters.splice(index, 1);
+    }
+}
+
+$(function () {
+    $("#searchInput").autocomplete({
+        source: function (request, response) {
+            var filtered = $.map(availableCharacters, function (item) {
+                if (item.name.toLowerCase().startsWith(request.term.toLowerCase())) {
+                    return {
+                        name: item.name,
+                        id: item.id,
+                        image: item.image
+                    };
+                }
+            });
+            response(filtered);
+        },
+        search: function (event, ui) {
+            $("#searchInput").addClass('image');
+        },
+        select: function (event, ui) {
+            $("#searchInput").removeClass('image');
+            updateBoxes(ui.item.id);
+        },
+        open: function (event, ui) {
+            $(".ui-menu-item").each(function (index) {
+                var item = ui.item;
+                $(this).html("<img src='" + item.image + "' style='width: 302px; height: 30px; margin-right: 10px;' />" + item.name);
+            });
+        }
+    }).data("ui-autocomplete")._renderItem = function (ul, item) {
+        return $("<li>")
+            .append("<div><img src='" + item.image + "' style='width: 80px; height: 80px; margin-right: 10px;' />" + item.name + "</div>")
+            .appendTo(ul);
+    };
+});
+
+document.getElementById('searchInput').addEventListener('keyup', function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+
+        updateBoxes(this.value);
+    }
+});
+
+window.onload = function () {
     const buttonGame = document.querySelector('.button-game');
     const buttonGameProgress = document.querySelector('.button-game-progress');
     const buttonSearch = document.querySelector('.button-search');
@@ -276,18 +276,18 @@ function GetMostFamousCharacters(characters, count) {
 
     gameModes.forEach(gameMode => {
         gameMode.addEventListener('click', function () {
-        gameModesContainer.style.display = 'none';
-        buttonHowToPlay.style.display = 'none';
-        buttonSearch.style.display = 'block';
-        gamePoints.style.display = 'block';
-        buttonBack.style.top = '-40vh';
-        document.getElementById('gamePoints').innerText = `Current Points: 100`;
+            gameModesContainer.style.display = 'none';
+            buttonHowToPlay.style.display = 'none';
+            buttonSearch.style.display = 'block';
+            gamePoints.style.display = 'block';
+            buttonBack.style.top = '-40vh';
+            document.getElementById('gamePoints').innerText = `Current Points: 100`;
+        });
     });
-});
 
     buttonBack.addEventListener('click', function () {
 
-        if(handleHintBallAction1Called || handleHintBallAction2Called || tries >= 6) {
+        if (handleHintBallAction1Called || handleHintBallAction2Called || tries >= 6) {
             location.reload();
         }
         buttonSearch.style.display = 'none';
@@ -303,7 +303,7 @@ function GetMostFamousCharacters(characters, count) {
         buttonInfo.style.display = 'block';
         loginWarningBox.style.display = 'block';
         allTimeGamePointsBox.style.display = 'block';
-       
+
         subtitle.style.visibility = 'visible';
 
         $('.boxContainer').remove();
@@ -314,17 +314,17 @@ function GetMostFamousCharacters(characters, count) {
         updateImageClueTriesText(imageClueTries, tries);
     });
 
-    buttonHowToPlay.addEventListener('click', function() {
+    buttonHowToPlay.addEventListener('click', function () {
         howToPlay.style.display = 'block';
         overlay.style.display = 'block';
     });
 
-    buttonInfo.addEventListener('click', function() {
+    buttonInfo.addEventListener('click', function () {
         information.style.display = 'block';
         overlay.style.display = 'block';
     });
-    
-    overlay.addEventListener('click', function() {
+
+    overlay.addEventListener('click', function () {
         howToPlay.style.display = 'none';
         information.style.display = 'none';
         overlay.style.display = 'none';
@@ -346,7 +346,7 @@ function GetMostFamousCharacters(characters, count) {
         hintBox.style.display = 'flex';
     });
 
-   
+
 };
 
 async function addCharacter(character) {
@@ -368,10 +368,10 @@ let handleHintBallAction2Called = false;
 async function updateFirstLetterTriesText(startingTries, tries) {
     const triesElement = document.querySelector('.first-letter-tries-text');
     const remainingTries = startingTries - tries;
-    if(remainingTries >= 0) {
+    if (remainingTries >= 0) {
         triesElement.innerHTML = `<strong> In ${remainingTries} tries </strong>`;
     }
-    if(remainingTries <= 0) {
+    if (remainingTries <= 0) {
         handleHintBallAction1();
         return;
     }
@@ -380,10 +380,10 @@ async function updateFirstLetterTriesText(startingTries, tries) {
 async function updateImageClueTriesText(startingTries, tries) {
     const triesElement = document.querySelector('.image-clue-tries-text');
     const remainingTries = startingTries - tries;
-    if(remainingTries >= 0) {
+    if (remainingTries >= 0) {
         triesElement.innerHTML = `<strong> In ${remainingTries} tries </strong>`;
     }
-    if(remainingTries <= 0) {
+    if (remainingTries <= 0) {
         handleHintBallAction2();
         return;
     }
@@ -434,7 +434,7 @@ function adjustFontSize(element, text) {
     } else if (text.length >= 7) {
         element.css("font-size", "18px");
     } else {
-        element.css("font-size", "20px"); 
+        element.css("font-size", "20px");
     }
 }
 
@@ -448,15 +448,15 @@ async function loadPlayers() {
                 nick: bestPlayers[i].name,
                 points: bestPlayers[i].userpoints
             });
-        } 
-}
+        }
+    }
 
     return players;
 }
 
 function generateTable(players) {
     const tableBody = document.querySelector('#playersTable tbody');
-    
+
     players.sort((a, b) => b.points - a.points);
 
     players.forEach((player, index) => {
@@ -474,7 +474,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const tableTitle = document.getElementById('tableTitle');
     let tableGenerated = false;
     const players = await loadPlayers();
-    
+
     if (tableTitle) {
         tableTitle.addEventListener('click', function () {
             const table = document.getElementById('playersTable');
@@ -482,7 +482,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
             if (!tableGenerated) {
                 generateTable(players);
-                tableGenerated = true;  
+                tableGenerated = true;
             }
 
             if (table.style.display === 'none' || table.style.display === '') {
@@ -500,11 +500,11 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
 
-async function updateBoxes(id) { 
+async function updateBoxes(id) {
     tries++;
     gamePoints = calculateTriesGamePoints(tries, handleHintBallAction1Called, handleHintBallAction2Called);
     document.getElementById('gamePoints').innerText = `Current Points: ${gamePoints}`;
-    
+
     await updateFirstLetterTriesText(firstLetterTries, tries);
     await updateImageClueTriesText(imageClueTries, tries);
 
@@ -514,12 +514,12 @@ async function updateBoxes(id) {
     const character = availableCharacters.find(char => char.id === id);
 
     for (let i = 0; i < usedCharacters.length; i++) {
-        if(character == usedCharacters[i]) {
+        if (character == usedCharacters[i]) {
             alert("Personagem ja adicionado na lista.");
             return;
-        } 
+        }
     }
-     if (character) {
+    if (character) {
         addCharacter(character);
 
         const capitalizeFirstLetter = (string) => {
@@ -563,17 +563,17 @@ async function updateBoxes(id) {
         if (character.status === correctCharacter.status) {
             boxStatus.css("background-color", "green");
         } else {
-            boxStatus.css("background-color", "red");          
+            boxStatus.css("background-color", "red");
         }
         adjustFontSize(boxStatus.find('.box-content'), character.status);
-        
+
         if (character.species === correctCharacter.species) {
             boxSpecies.css("background-color", "green");
         } else {
             boxSpecies.css("background-color", "red");
         }
         adjustFontSize(boxSpecies.find('.box-content'), character.species);
-        
+
         if (character.gender === correctCharacter.gender) {
             boxGender.css("background-color", "green");
         } else {
@@ -587,7 +587,7 @@ async function updateBoxes(id) {
             boxOrigin.css("background-color", "red");
         }
         adjustFontSize(boxOrigin.find('.box-content'), character.origin);
-        
+
         if (character.location === correctCharacter.location) {
             boxLocation.css("background-color", "green");
         } else {
@@ -596,61 +596,61 @@ async function updateBoxes(id) {
         adjustFontSize(boxLocation.find('.box-content'), character.location);
 
         if (character.episodeCount === correctCharacter.episodeCount) {
-            boxEpisodesCount.css("background-color", "green"); 
+            boxEpisodesCount.css("background-color", "green");
         } else if (Math.abs(character.episodeCount - correctCharacter.episodeCount) <= 10) {
-            boxEpisodesCount.css("background-color", "orange"); 
+            boxEpisodesCount.css("background-color", "orange");
         } else {
-            boxEpisodesCount.css("background-color", "red"); 
+            boxEpisodesCount.css("background-color", "red");
         }
         adjustFontSize(boxEpisodesCount.find('.box-content'), character.episodeCount);
 
 
         if (character.id === correctCharacter.id) {
             boxCorrect.css("background-color", "green");
-            boxCorrect.find('.box-content').text('Correct');     
+            boxCorrect.find('.box-content').text('Correct');
 
             buttonSearch.style.display = 'none';
             buttonBack.style.display = 'none';
 
             newBoxContainer.prependTo("#characterBlocks");
 
-            if(tries <= 5) {
-                if(gamePoints != 0) {
+            if (tries <= 5) {
+                if (gamePoints != 0) {
                     bonusPoints = 150;
                     gamePoints += bonusPoints;
                 }
             }
-            else if(tries <= 10) {
-                if(gamePoints != 0) {
-                   bonusPoints = 100;
-                   gamePoints += bonusPoints;
+            else if (tries <= 10) {
+                if (gamePoints != 0) {
+                    bonusPoints = 100;
+                    gamePoints += bonusPoints;
                 }
             }
             else if (tries <= 15) {
-                if(gamePoints != 0) {
-                   bonusPoints = 50;
-                   gamePoints += bonusPoints;
+                if (gamePoints != 0) {
+                    bonusPoints = 50;
+                    gamePoints += bonusPoints;
                 }
             }
 
-            if(easyGameMode) {
+            if (easyGameMode) {
                 gamePoints = 0;
             }
-            else if(mediumGameMode) {
+            else if (mediumGameMode) {
                 gamePoints *= 1;
             }
-            else if(hardGameMode) {
+            else if (hardGameMode) {
                 gamePoints *= 3;
             }
-            else if(impossibleGameMode) {
+            else if (impossibleGameMode) {
                 gamePoints *= 5;
             }
 
             document.getElementById('gamePoints').innerText = `Current Points: ${gamePoints}`;
-            showCongrats(character, newBoxContainer);     
+            showCongrats(character, newBoxContainer);
         } else {
             boxCorrect.css("background-color", "red");
-            boxCorrect.find('.box-content').text('Incorrect').css('font-size', '18px');          
+            boxCorrect.find('.box-content').text('Incorrect').css('font-size', '18px');
         }
 
         newBoxContainer.css("display", "flex");
@@ -658,7 +658,7 @@ async function updateBoxes(id) {
 
     } else {
         alert("Personagem não encontrado na lista.");
-  }
+    }
 }
 
 
@@ -666,21 +666,21 @@ async function showCongrats(character, referenceElement) {
 
     hintBall1.style.pointerEvents = 'none';
     hintBall2.style.pointerEvents = 'none';
-    
+
     const congratsBlock = document.createElement('div');
     congratsBlock.classList.add('congrats-block');
-    
+
     const h1 = document.createElement('h1');
     h1.textContent = 'Congrats!';
-    
+
     const p1 = document.createElement('p');
     p1.textContent = 'You guessed ';
-    
+
     const strong = document.createElement('strong');
-    strong.textContent = (character.name); 
-    
+    strong.textContent = (character.name);
+
     p1.appendChild(strong);
-    
+
     const p3 = document.createElement('p');
     p3.innerHTML = 'Number of tries: <strong>' + tries + '</strong>';
 
@@ -688,26 +688,26 @@ async function showCongrats(character, referenceElement) {
     p4.innerHTML = 'You got: <strong>' + bonusPoints + '</strong>' + ' bonus points';
 
     const p5 = document.createElement('p');
-    p5.innerHTML = 'You lost: <strong>' + tries*3 + '</strong>' + ' points (3 point for each try)';
+    p5.innerHTML = 'You lost: <strong>' + tries * 3 + '</strong>' + ' points (3 point for each try)';
 
     const p6 = document.createElement('p');
 
-    if(easyGameMode) {
+    if (easyGameMode) {
         p6.innerHTML = 'You got: <strong>' + gamePoints + '</strong>' + ' points in total' + ' (0x Easy Mode Multiplier)';
     }
-    else if(mediumGameMode) {
+    else if (mediumGameMode) {
         p6.innerHTML = 'You got: <strong>' + gamePoints + '</strong>' + ' points in total' + ' (1x Medium Mode Multiplier)';
     }
-    else if(hardGameMode) {
+    else if (hardGameMode) {
         p6.innerHTML = 'You got: <strong>' + gamePoints + '</strong>' + ' points in total' + ' (3x Hard Mode Multiplier)';
     }
-    else if(impossibleGameMode) {
+    else if (impossibleGameMode) {
         p6.innerHTML = 'You got: <strong>' + gamePoints + '</strong>' + ' points in total' + ' (5x Impossible Mode Multiplier)';
     }
 
-    const p7= document.createElement('p');
+    const p7 = document.createElement('p');
     p7.innerHTML = '<strong>Tap to play again!</strong>';
-    
+
     congratsBlock.appendChild(h1);
     congratsBlock.appendChild(p1);
     congratsBlock.appendChild(p3);
@@ -716,11 +716,11 @@ async function showCongrats(character, referenceElement) {
     congratsBlock.appendChild(p6);
     congratsBlock.appendChild(p7);
 
-    congratsBlock.addEventListener('click', function() {
+    congratsBlock.addEventListener('click', function () {
         location.reload();
     });
 
-    $(referenceElement).after(congratsBlock);7
+    $(referenceElement).after(congratsBlock); 7
 
     allTimeGamePoints = await calculateAllTimeGamePoints(gamePoints);
     document.getElementById('allTime-gamePoints').innerText = `All Time Points:  ${allTimeGamePoints}`;
