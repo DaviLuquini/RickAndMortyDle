@@ -1,5 +1,5 @@
 <div class="flex flex-col items-center justify-center relative">
-  <div #dropdownWrapper class="flex flex-col items-center justify-center w-173 relative">
+  <div #dropdownWrapper class="flex flex-col items-center justify-center w-full relative">
     <input type="text" placeholder="Type character name..." class="h-14 w-full rounded-lg border-2 border-slate-700 bg-slate-800 px-6 
              text-lg text-slate-200 placeholder-slate-500 outline-none
              transition-all duration-300 ease-in-out
@@ -28,7 +28,7 @@
   </div>
 </div>
 
-<div class="mt-6 space-y-2">
+<div class="mt-6 space-y-2 overflow-x-auto">
   @for (result of guessHistory(); track result.character.id; let i = $index) {
   <app-guess-result [result]="result" [showHeaders]="i === 0" />
   }

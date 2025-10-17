@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { LucideAngularModule, Image, Lightbulb } from "lucide-angular";
 
 @Component({
@@ -8,6 +8,8 @@ import { LucideAngularModule, Image, Lightbulb } from "lucide-angular";
   styleUrl: './hint-card.scss'
 })
 export class HintCard {
-  readonly Image = Image;
-  readonly Lightbulb = Lightbulb;
+  public readonly Math = Math;
+  public readonly Image = Image;
+  public readonly Lightbulb = Lightbulb;
+  @Input() tries = 0;
 }

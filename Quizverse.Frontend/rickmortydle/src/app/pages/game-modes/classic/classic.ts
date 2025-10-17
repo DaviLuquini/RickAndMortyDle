@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Title } from "../../../components/title/title";
 import { HintCard } from "./widgets/hint-card/hint-card";
 import { CharacterSearch } from "../../../components/character-search/character-search";
@@ -10,5 +10,5 @@ import { CharacterSearch } from "../../../components/character-search/character-
   styleUrl: './classic.scss'
 })
 export class Classic {
-
+  tries = signal(0);
 }

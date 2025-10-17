@@ -1,4 +1,4 @@
-import { Component, computed, effect, ElementRef, HostListener, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, computed, effect, ElementRef, HostListener, inject, OnInit, signal, ViewChild, Output, EventEmitter } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ICharacter } from '../../models/character.type';
 import { CharacterService } from '../../services/characters.service';
@@ -26,6 +26,8 @@ export class CharacterSearch implements OnInit {
   public tries = signal(0);
   public isGameOver = signal(false);
   public timeLeft: string = '';
+
+  @Output() triesChange = new EventEmitter<number>();
 
   ngOnInit() {
     this.updateTimeLeft();
@@ -80,7 +82,11 @@ export class CharacterSearch implements OnInit {
       return;
     }
 
-    this.tries.update(t => t + 1);
+    this.tries.update(t => {
+      const next = t + 1;
+      this.triesChange.emit(next);
+      return next;
+    });
 
     const episodeDiff = Math.abs((guessedCharacter.episodeCount ?? 0) - (correct.episodeCount ?? 0));
     const isCorrect = guessedCharacter.id === correct.id;
@@ -127,7 +133,6 @@ export class CharacterSearch implements OnInit {
 
   @HostListener('document:click', ['$event'])
   handleClickOutside(event: MouseEvent): void {
-    // Guard when the element isn't rendered yet or ViewChild not ready
     const el = this.dropdownWrapper?.nativeElement;
     if (!el) return;
 
