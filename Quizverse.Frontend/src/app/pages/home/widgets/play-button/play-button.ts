@@ -10,5 +10,5 @@ import { LucideAngularModule } from 'lucide-angular';
 })
 export class PlayButton {
   @Input() customStyle?: string;
-  @Input() showIconCicle = true;
+  @Input() showIconCircle = true;
 }

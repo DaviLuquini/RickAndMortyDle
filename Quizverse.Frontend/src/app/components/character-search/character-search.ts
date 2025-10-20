@@ -21,7 +21,7 @@ export class CharacterSearch implements OnInit {
   @ViewChild('gameOverElement', { read: ElementRef, static: false }) gameOverElement?: ElementRef<HTMLElement>;
 
   public readonly MessageSquareQuote = MessageSquareQuote;
-  public showIconCicle = false;
+  public showIconCircle = false;
   public characters = toSignal(this.charactersService.getAllCharacters(), { initialValue: [] as ICharacter[] });
   public availableCharacters = signal<ICharacter[]>([]);
   public correctCharacter = signal<ICharacter | undefined>(undefined);
@@ -192,6 +192,6 @@ export class CharacterSearch implements OnInit {
   }
 
   updateShowIcon() {
-    this.showIconCicle = window.innerWidth >= 1024;
+    this.showIconCircle = window.innerWidth >= 1024;
   }
 }
