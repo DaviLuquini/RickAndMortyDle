@@ -360,6 +360,7 @@ MigrationBackup/
 /tmp
 /out-tsc
 /bazel-out
+dist
 
 # Node
 /node_modules
