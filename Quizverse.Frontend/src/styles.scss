@@ -1,0 +1,36 @@
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+@theme {
+  
+}
+
+html,
+body {
+  min-height: 100%;
+  height: auto;
+  width: 100%;
+}
+
+body {
+  background-image: url("./assets/images/bg-rickmorty.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100%;
+  height: auto;
+  width: 100%;
+}
+
+.wubbalubba {
+  font-family: 'WubbaLubbaDubDub', sans-serif;
+  color: #08BAE3;
+  -webkit-text-stroke: 0.02em #FFF765;
+}
