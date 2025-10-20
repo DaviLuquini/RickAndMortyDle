@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { Title } from "../../../components/title/title";
 import { HintCard } from "./widgets/hint-card/hint-card";
 import { CharacterSearch } from "../../../components/character-search/character-search";
+import { ICharacter } from '../../../models/character.type';
 
 @Component({
   selector: 'app-classic',
@@ -10,5 +11,6 @@ import { CharacterSearch } from "../../../components/character-search/character-
   styleUrl: './classic.scss'
 })
 export class Classic {
-  tries = signal(0);
+  public tries = signal(0);
+  public correctCharacter!: ICharacter;
 }

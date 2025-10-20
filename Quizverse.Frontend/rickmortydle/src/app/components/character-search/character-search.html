@@ -35,7 +35,7 @@
 </div>
 
 @if(isGameOver()) {
-<div class="p-6 bg-green-600 rounded-lg text-white text-center">
+<div #gameOverElement class="p-6 bg-green-600 rounded-lg text-white text-center">
   <h2 class="text-3xl font-bold mb-2">🎉 Congratulations! 🎉</h2>
   <p class="text-xl">You guessed correctly in {{ tries() }} tries!</p>
   <span class="text-xl">Next character in: <span class="text-2xl font-bold">{{ timeLeft }}</span></span>

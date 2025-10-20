@@ -1,7 +1,7 @@
 <div class="flex flex-col justify-start items-center gap-6 w-full h-full">
     <app-title></app-title>
     <div class="flex flex-col justify-center items-center">
-        <app-hint-card [tries]="tries()"></app-hint-card>
-        <app-character-search (triesChange)="tries.set($event)"></app-character-search>
+        <app-hint-card [tries]="tries()" [correctCharacter]="correctCharacter"></app-hint-card>
+        <app-character-search (triesChange)="tries.set($event)" (correctCharacterOutput)="correctCharacter = $event"></app-character-search>
     </div>
 </div>

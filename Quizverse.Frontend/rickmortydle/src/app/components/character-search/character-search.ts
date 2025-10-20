@@ -16,6 +16,7 @@ import { IGuessResult } from '../../models/guess-result';
 export class CharacterSearch implements OnInit {
   private readonly charactersService = inject(CharacterService);
   @ViewChild('dropdownWrapper', { read: ElementRef, static: false }) dropdownWrapper?: ElementRef<HTMLElement>;
+  @ViewChild('gameOverElement', { read: ElementRef, static: false }) gameOverElement?: ElementRef<HTMLElement>;
 
   public characters = toSignal(this.charactersService.getAllCharacters(), { initialValue: [] as ICharacter[] });
   public availableCharacters = signal<ICharacter[]>([]);
@@ -28,6 +29,7 @@ export class CharacterSearch implements OnInit {
   public timeLeft: string = '';
 
   @Output() triesChange = new EventEmitter<number>();
+  @Output() correctCharacterOutput = new EventEmitter<ICharacter>();
 
   ngOnInit() {
     this.updateTimeLeft();
@@ -68,6 +70,7 @@ export class CharacterSearch implements OnInit {
     const randomIndex = Math.floor(Math.random() * chars.length);
     const chosen = chars[randomIndex];
     this.correctCharacter.set(chosen);
+    this.correctCharacterOutput.emit(chosen);
     console.log(chosen.name)
     return chosen;
   }
@@ -117,6 +120,12 @@ export class CharacterSearch implements OnInit {
 
     if (isCorrect) {
       this.isGameOver.set(true);
+      setTimeout(() => {
+        this.gameOverElement?.nativeElement?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }, 100);
     }
 
     this.searchText.set('');
