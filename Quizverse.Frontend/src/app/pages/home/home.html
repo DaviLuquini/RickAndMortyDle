@@ -1,4 +1,4 @@
-<div class="flex flex-col justify-center items-center gap-4 lg:gap-10">
+<div class="flex flex-col justify-center items-center gap-4 lg:gap-8">
     <app-title></app-title>
     <span class="wubbalubba text-4xl text-center">Guess Rick & Morty Characters</span>
     <div class="flex flex-col gap-8 mb-5">
@@ -7,17 +7,17 @@
              <span class="text-xl">Classic Mode</span>
             <span class="text-base lg:text-lg">Get clues on every try</span>
         </app-play-button>
-        <app-play-button>
+        <app-play-button customStyle="disabled">
             <lucide-icon icon class="w-9 h-9" [img]="MessageSquareQuote"></lucide-icon>
             <span class="text-xl">Quote</span>
             <span class="text-base lg:text-lg">Guess with in-series quotes</span>
         </app-play-button>
-        <app-play-button>
+        <app-play-button customStyle="disabled">
             <lucide-icon icon class="w-9 h-9" [img]="Laugh"></lucide-icon>
             <span class="text-xl">Emoji</span>
             <span class="text-base lg:text-lg">Guess with a set of emojis</span>
         </app-play-button>
-        <app-play-button>
+        <app-play-button customStyle="disabled">
             <lucide-icon icon class="w-9 h-9" [img]="Image"></lucide-icon>
             <span class="text-xl">Splash</span>
             <span class="text-base lg:text-lg">Guess from an image</span>

@@ -34,3 +34,8 @@ app-root {
   color: #08BAE3;
   -webkit-text-stroke: 0.02em #FFF765;
 }
+
+.disabled {
+  pointer-events: none; 
+  opacity: 0.5;        
+}
