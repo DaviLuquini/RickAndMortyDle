@@ -24,24 +24,24 @@
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
+   -->
   
-  <!-- Contact -->
-  <url>
+  <!-- Contact
     <loc>https://rickandmortydle.com/contact</loc>
     <lastmod>2025-10-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-  
-  <!-- Privacy Policy -->
+  -->
+  <!-- Privacy Policy 
   <url>
     <loc>https://rickandmortydle.com/privacy</loc>
     <lastmod>2025-10-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
-  
-  <!-- Terms of Service -->
+  -->
+  <!-- Terms of Service 
   <url>
     <loc>https://rickandmortydle.com/terms</loc>
     <lastmod>2025-10-20</lastmod>
