@@ -1,12 +1,12 @@
-import { Component, computed, effect, ElementRef, HostListener, inject, OnInit, signal, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, computed, effect, ElementRef, HostListener, inject, OnInit, signal, ViewChild, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ICharacter } from '../../models/character.type';
 import { CharacterService } from '../../services/characters.service';
 import { CommonModule } from '@angular/common';
 import { GuessResultComponent } from './widgets/guess-result/guess-result';
 import { IGuessResult } from '../../models/guess-result';
-import { PlayButton } from "../../pages/home/widgets/play-button/play-button";
 import { LucideAngularModule, MessageSquareQuote } from "lucide-angular";
+import { PlayButton } from '../play-button/play-button';
 
 @Component({
   selector: 'app-character-search',
@@ -15,8 +15,9 @@ import { LucideAngularModule, MessageSquareQuote } from "lucide-angular";
   templateUrl: './character-search.html',
   styleUrl: './character-search.scss'
 })
-export class CharacterSearch implements OnInit {
+export class CharacterSearch implements OnInit, OnDestroy {
   private readonly charactersService = inject(CharacterService);
+  private intervalId?: any;
   @ViewChild('dropdownWrapper', { read: ElementRef, static: false }) dropdownWrapper?: ElementRef<HTMLElement>;
   @ViewChild('gameOverElement', { read: ElementRef, static: false }) gameOverElement?: ElementRef<HTMLElement>;
 
@@ -37,10 +38,19 @@ export class CharacterSearch implements OnInit {
 
   ngOnInit() {
     this.updateTimeLeft();
-    setInterval(() => this.updateTimeLeft(), 1000);
+    this.getCharacterOfTheDay();
 
-    this.updateShowIcon();
-    window.addEventListener('resize', () => this.updateShowIcon());
+    this.intervalId = setInterval(() => {
+      this.updateTimeLeft();
+
+      if (this.timeLeft === '00:00:00') {
+        this.getCharacterOfTheDay();
+        this.updateTimeLeft();
+      }
+    }, 1000);
+
+    this.updateShowPlayButtonIcon();
+    window.addEventListener('resize', () => this.updateShowPlayButtonIcon());
   }
 
   constructor() {
@@ -191,7 +201,13 @@ export class CharacterSearch implements OnInit {
     return num.toString().padStart(2, '0');
   }
 
-  updateShowIcon() {
+  updateShowPlayButtonIcon() {
     this.showIconCircle = window.innerWidth >= 1024;
+  }
+
+  ngOnDestroy() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
   }
 }

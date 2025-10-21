@@ -3,7 +3,7 @@ import { Home } from './pages/home/home';
 
 export const routes: Routes = [
     {
-        path: 'home',
+        path: '',
         component: Home
     },
     {
@@ -13,9 +13,9 @@ export const routes: Routes = [
                 (m) => m.Classic
             ),
     },
-    {
-        path: "",
-        redirectTo: "home",
-        pathMatch: "full",
-    },
+    { 
+        path: '**', 
+        redirectTo: '', 
+        pathMatch: 'full' 
+    }
 ];

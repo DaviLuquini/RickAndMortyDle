@@ -1,6 +1,6 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist/rickmortydle/browser",
+  "outputDirectory": "dist/rickandmortydle/browser",
   "framework": "angular",
   "rewrites": [
     {

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "rickmortydle": {
+    "rickandmortydle": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/rickmortydle",
+            "outputPath": "dist/rickandmortydle",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -68,10 +68,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "rickmortydle:build:production"
+              "buildTarget": "rickandmortydle:build:production"
             },
             "development": {
-              "buildTarget": "rickmortydle:build:development"
+              "buildTarget": "rickandmortydle:build:development"
             }
           },
           "defaultConfiguration": "development"

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { PlayButton } from "./widgets/play-button/play-button";
 import { Image, Landmark, Laugh, LucideAngularModule, MessageSquareQuote } from "lucide-angular";
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { Title } from "../../components/title/title";
+import { PlayButton } from '../../components/play-button/play-button';
 
 @Component({
   selector: 'app-home',

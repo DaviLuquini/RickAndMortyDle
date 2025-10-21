@@ -35,10 +35,9 @@
 </div>
 
 @if (isGameOver()) {
-<div #gameOverElement class="cursor-pointer bg-gradient-to-br from-gray-100 to-green-500 border-2 border-green-500 rounded-xl 
-  shadow-[0_0_15px_rgba(0,255,0,0.3),0_0_10px_rgba(0,0,0,0.1)] p-1 lg:p-5 text-center 
-  max-w-md w-[80%] h-[90%] lg:w-full lg:h-full
-  game-over-bounce flex flex-col items-center gap-1">
+<div #gameOverElement class="bg-gradient-to-br from-gray-100 to-green-500 border-2 border-green-500 rounded-xl 
+  shadow-[0_0_15px_rgba(0,255,0,0.3),0_0_10px_rgba(0,0,0,0.1)] p-1 lg:p-5 text-center max-w-md 
+  w-[80%] h-[90%] lg:w-full lg:h-full game-over-bounce flex flex-col items-center gap-1">
   <h2 class="text-base lg:text-2xl font-bold mb-2">🎉 Congratulations! 🎉</h2>
   <p class="text-sm lg:text-lg">You guessed correctly in <span class="font-bold">{{ tries() }} tries!</span></p>
   <span class="text-sm lg:text-lg">
