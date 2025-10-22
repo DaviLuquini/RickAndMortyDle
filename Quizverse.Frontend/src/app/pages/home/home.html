@@ -1,10 +1,10 @@
 <div class="flex flex-col justify-center items-center gap-4 lg:gap-8">
     <app-title></app-title>
     <span class="wubbalubba text-4xl text-center">Guess Rick & Morty Characters</span>
-    <div class="flex flex-col gap-8 mb-5">
+    <div class="flex flex-col gap-8">
         <app-play-button (keypress)="navigateTo('classic')" (click)="navigateTo('classic')">
             <lucide-icon icon class="w-9 h-9" [img]="Landmark"></lucide-icon>
-             <span class="text-xl">Classic Mode</span>
+            <span class="text-xl">Classic Mode</span>
             <span class="text-base lg:text-lg">Get clues on every try</span>
         </app-play-button>
         <app-play-button customStyle="disabled">
@@ -23,4 +23,21 @@
             <span class="text-base lg:text-lg">Guess from an image</span>
         </app-play-button>
     </div>
+    
+    <div class="flex flex-col gap-1 text-white items-center justify-center text-sm">
+        <span>rickandmortydle.com — 2025</span>
+        <div class="flex gap-4 items-center">
+            <a class="underline cursor-pointer flex items-center gap-1" (click)="openAboutModal()">
+                <lucide-icon [img]="Info" class="w-4 h-4"></lucide-icon>
+                About
+            </a>
+            <a [routerLink]="'privacy-policy'" class="underline cursor-pointer">
+                Privacy Policy
+            </a>
+        </div>
+    </div>
 </div>
+
+@if (showAboutModal) {
+  <app-about-modal (closeOutput)="closeAboutModal()"></app-about-modal>
+}

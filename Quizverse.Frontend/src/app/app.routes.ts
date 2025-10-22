@@ -13,9 +13,16 @@ export const routes: Routes = [
                 (m) => m.Classic
             ),
     },
-    { 
-        path: '**', 
-        redirectTo: '', 
-        pathMatch: 'full' 
+    {
+        path: "privacy-policy",
+        loadComponent: () =>
+            import("./pages/privacy-policy/privacy-policy").then(
+                (m) => m.PrivacyPolicy
+            ),
+    },
+    {
+        path: '**',
+        redirectTo: '',
+        pathMatch: 'full'
     }
 ];

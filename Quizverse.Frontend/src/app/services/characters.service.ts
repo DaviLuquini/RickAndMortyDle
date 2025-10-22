@@ -13,42 +13,24 @@ export class CharacterService {
 
     constructor(private readonly http: HttpClient) { }
 
-    getAllCharacters(): Observable<ICharacter[]> {
+    getCharacters(count: number): Observable<ICharacter[]> {
         const requests: Observable<ICharactersApiResponse>[] = [];
 
         for (let page = 1; page <= this.totalPages; page++) {
-            requests.push(this.http.get<ICharactersApiResponse>(`${this.baseUrl}/?page=${page}`));
+            requests.push(this.http.get<ICharactersApiResponse>(`${this.baseUrl}?page=${page}`));
         }
 
         return forkJoin(requests).pipe(
-            map((responses: ICharactersApiResponse[]) => {
-                return responses.flatMap((response) => {
-                    return response.results.map((characterData: ICharacter) => {
-                        const episodeCount = characterData.episode ? characterData.episode.length : 0;
-                        const location = characterData.location
-                            ? { name: characterData.location.name, url: characterData.location.url }
-                            : { name: '', url: '' };
-                        const origin = characterData.origin
-                            ? { name: characterData.origin.name, url: characterData.origin.url }
-                            : { name: '', url: '' };
+            map(responses => {
+                const allCharacters = responses.flatMap(res => res.results);
 
-                        return {
-                            name: characterData.name,
-                            id: characterData.id,
-                            image: characterData.image,
-                            gender: characterData.gender,
-                            origin,
-                            status: characterData.status,
-                            species: characterData.species,
-                            location,
-                            episodeCount: episodeCount,
-                            type: characterData.type,
-                            episode: characterData.episode,
-                            url: characterData.url,
-                            created: characterData.created
-                        };
-                    });
-                });
+                return allCharacters
+                    .map(char => ({
+                        ...char,
+                        episodeCount: char.episode?.length ?? 0
+                    }))
+                    .sort((a, b) => b.episodeCount - a.episodeCount)
+                    .slice(0, count);
             })
         );
     }

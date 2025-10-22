@@ -23,7 +23,7 @@ export class CharacterSearch implements OnInit, OnDestroy {
 
   public readonly MessageSquareQuote = MessageSquareQuote;
   public showIconCircle = false;
-  public characters = toSignal(this.charactersService.getAllCharacters(), { initialValue: [] as ICharacter[] });
+  public characters = toSignal(this.charactersService.getCharacters(100), { initialValue: [] as ICharacter[] });
   public availableCharacters = signal<ICharacter[]>([]);
   public correctCharacter = signal<ICharacter | undefined>(undefined);
   public searchText = signal('');
@@ -58,11 +58,7 @@ export class CharacterSearch implements OnInit, OnDestroy {
       const allChars = this.characters();
       if (!allChars || allChars.length === 0) return;
 
-      const top100 = [...allChars]
-        .sort((a, b) => (b.episodeCount ?? 0) - (a.episodeCount ?? 0))
-        .slice(0, 100);
-
-      this.availableCharacters.set(top100);
+      this.availableCharacters.set(allChars);
 
       if (!this.correctCharacter()) {
         this.getCharacterOfTheDay();
@@ -72,12 +68,6 @@ export class CharacterSearch implements OnInit, OnDestroy {
 
   updateAvailableCharacters(character: ICharacter): void {
     this.availableCharacters.update(chars => chars.filter(c => c.id !== character.id));
-  }
-
-  getMostFamousCharacters(count: number): ICharacter[] {
-    return [...this.availableCharacters()]
-      .sort((a, b) => (b.episodeCount ?? 0) - (a.episodeCount ?? 0))
-      .slice(0, count);
   }
 
   getCharacterOfTheDay(): ICharacter | undefined {

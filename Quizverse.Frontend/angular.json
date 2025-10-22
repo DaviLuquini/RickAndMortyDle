@@ -5,7 +5,12 @@
   "projects": {
     "rickandmortydle": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "skipTests": true
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -19,7 +24,7 @@
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
-                "assets": [
+            "assets": [
               {
                 "glob": "**/*",
                 "input": "public"
@@ -38,7 +43,7 @@
             "styles": [
               "src/styles.scss",
               "src/assets/fonts/style.scss"
-            ]    
+            ]
           },
           "configurations": {
             "production": {
