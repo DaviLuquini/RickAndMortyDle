@@ -7,6 +7,7 @@ import { GuessResultComponent } from './widgets/guess-result/guess-result';
 import { IGuessResult } from '../../models/guess-result';
 import { LucideAngularModule, MessageSquareQuote } from "lucide-angular";
 import { PlayButton } from '../play-button/play-button';
+import { IClassicGameState } from './widgets/classic-game-state';
 
 @Component({
   selector: 'app-character-search',
@@ -18,6 +19,7 @@ import { PlayButton } from '../play-button/play-button';
 export class CharacterSearch implements OnInit, OnDestroy {
   private readonly charactersService = inject(CharacterService);
   private intervalId?: any;
+  private correctCharacterHash: string | undefined;
   @ViewChild('dropdownWrapper', { read: ElementRef, static: false }) dropdownWrapper?: ElementRef<HTMLElement>;
   @ViewChild('gameOverElement', { read: ElementRef, static: false }) gameOverElement?: ElementRef<HTMLElement>;
 
@@ -38,13 +40,13 @@ export class CharacterSearch implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.updateTimeLeft();
-    this.getCharacterOfTheDay();
 
     this.intervalId = setInterval(() => {
       this.updateTimeLeft();
 
       if (this.timeLeft === '00:00:00') {
         this.getCharacterOfTheDay();
+        localStorage.removeItem('rickmortydle-game');
         this.updateTimeLeft();
       }
     }, 1000);
@@ -58,13 +60,18 @@ export class CharacterSearch implements OnInit, OnDestroy {
       const allChars = this.characters();
       if (!allChars || allChars.length === 0) return;
 
-      this.availableCharacters.set(allChars);
+      this.loadGameState();
+      const saved = localStorage.getItem('rickmortydle-game');
+      if (!saved) {
+        this.availableCharacters.set(allChars);
+      }
 
       if (!this.correctCharacter()) {
         this.getCharacterOfTheDay();
       }
     });
   }
+
 
   updateAvailableCharacters(character: ICharacter): void {
     this.availableCharacters.update(chars => chars.filter(c => c.id !== character.id));
@@ -80,11 +87,11 @@ export class CharacterSearch implements OnInit, OnDestroy {
 
 
     const index = diffDays % chars.length;
-    const chosen = chars[index];
-    this.correctCharacter.set(chosen);
-    this.correctCharacterOutput.emit(chosen);
-    console.log(chosen.name)
-    return chosen;
+    const correctChar = chars[index];
+    this.correctCharacter.set(correctChar);
+    this.correctCharacterOutput.emit(correctChar);
+    console.log(correctChar.name)
+    return correctChar;
   }
 
   makeGuess(guessedCharacter: ICharacter): void {
@@ -104,7 +111,7 @@ export class CharacterSearch implements OnInit, OnDestroy {
     });
 
     const episodeDiff = Math.abs((guessedCharacter.episodeCount ?? 0) - (correct.episodeCount ?? 0));
-    const isCorrect = guessedCharacter.id === correct.id;
+    const isCorrect = btoa(guessedCharacter.id.toString()) === this.correctCharacterHash;
 
     let episodeMatch: 'exact' | 'close' | 'far' = 'far';
     if (episodeDiff === 0) {
@@ -127,11 +134,12 @@ export class CharacterSearch implements OnInit, OnDestroy {
     };
 
     this.guessHistory.update(history => [result, ...history]);
-
     this.updateAvailableCharacters(guessedCharacter);
+    this.saveGameState();
 
     if (isCorrect) {
       this.isGameOver.set(true);
+      this.saveGameState();
       setTimeout(() => {
         this.gameOverElement?.nativeElement?.scrollIntoView({
           behavior: 'smooth',
@@ -163,6 +171,48 @@ export class CharacterSearch implements OnInit, OnDestroy {
         return nameA.localeCompare(nameB);
       });
   });
+
+  private saveGameState(): void {
+    const correct = this.correctCharacter();
+    if (!correct) return;
+
+    const state: IClassicGameState = {
+      date: new Date().toDateString(),
+      correctCharacterHash: btoa(correct.id.toString()),
+      guessHistory: this.guessHistory(),
+      tries: this.tries(),
+      isGameOver: this.isGameOver(),
+      availableCharacters: this.availableCharacters()
+    };
+
+    localStorage.setItem('rickmortydle-game', JSON.stringify(state));
+  }
+
+  private loadGameState(): void {
+    const saved = localStorage.getItem('rickmortydle-game');
+    if (!saved) return;
+
+    const state: IClassicGameState = JSON.parse(saved);
+    const today = new Date().toDateString();
+
+    if (state.date === today) {
+      this.correctCharacterHash = state.correctCharacterHash;
+      const correctCharId = Number.parseInt(atob(state.correctCharacterHash), 10);
+      const allChars = this.characters();
+      const correctChar = allChars.find(c => c.id === correctCharId);
+      this.correctCharacter.set(correctChar);
+      this.correctCharacterOutput.emit(correctChar);
+
+      this.guessHistory.set(state.guessHistory);
+      this.tries.set(state.tries);
+      this.triesChange.emit(this.tries());
+      this.isGameOver.set(state.isGameOver);
+      this.availableCharacters.set(state.availableCharacters);
+    } else {
+      localStorage.removeItem('rickmortydle-game');
+    }
+  }
+
 
   @HostListener('document:click', ['$event'])
   handleClickOutside(event: MouseEvent): void {
