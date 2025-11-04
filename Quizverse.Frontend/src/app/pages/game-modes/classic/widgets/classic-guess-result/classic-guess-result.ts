@@ -1,15 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IGuessResult } from '../../../../models/guess-result';
+import { IGuessResult } from '../../../../../components/character-search/models/guess-result';
 
 @Component({
-  selector: 'app-guess-result',
-  standalone: true,
+  selector: 'app-classic-guess-result',
   imports: [CommonModule],
-  templateUrl: './guess-result.html',
-  styleUrl: './guess-result.scss'
+  templateUrl: './classic-guess-result.html',
+  styleUrl: './classic-guess-result.scss'
 })
-export class GuessResultComponent {
+export class ClassicGuessResultComponent {
   @Input({ required: true }) result!: IGuessResult;
   @Input() showHeaders = false;
 

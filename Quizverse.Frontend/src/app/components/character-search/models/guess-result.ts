@@ -1,9 +1,9 @@
-import { ICharacter } from "./character.type";
+import { ICharacter } from "../../../models/character";
 
 export interface IGuessResult {
     character: ICharacter;
     isCorrect: boolean;
-    matches: {
+    matches?: {
         status: boolean;
         species: boolean;
         gender: boolean;

@@ -1,23 +1,22 @@
 import { Component, inject, ViewChild } from '@angular/core';
-import { Title } from "../../../components/title/title";
-import { HintCard } from "../widgets/hint-card/hint-card";
 import { CharacterSearch } from "../../../components/character-search/character-search";
+import { Title } from "../../../components/title/title";
 import { CharacterSearchService } from '../../../services/character-search.service';
+import { CardQuote } from "./widgets/card-quote/card-quote";
 
 @Component({
-  selector: 'app-classic',
-  imports: [Title, HintCard, CharacterSearch],
-  templateUrl: './classic.html',
-  styleUrl: './classic.scss',
-  providers: [CharacterSearchService]
+  selector: 'app-quote',
+  imports: [CharacterSearch, Title, CardQuote],
+  templateUrl: './quote.html',
+  styleUrl: './quote.scss'
 })
-export class Classic {
+export class Quote {
   @ViewChild(CharacterSearch) characterSearchComponent?: CharacterSearch;
   public readonly characterSearchService = inject(CharacterSearchService);
-  public tries = this.characterSearchService.tries;
   public correctCharacter = this.characterSearchService.correctCharacter;
+  public characters = this.characterSearchService.characters;
 
   constructor() {
-    this.characterSearchService.initialize('classic');
+    this.characterSearchService.initialize('quote');
   }
 }

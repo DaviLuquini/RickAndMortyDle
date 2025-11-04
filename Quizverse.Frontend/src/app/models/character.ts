@@ -21,6 +21,7 @@ export interface ICharacter {
   url: string;
   created: string;
   episodeCount: number;
+  quote?: string;
 }
 
 export interface ICharactersApiResponse {

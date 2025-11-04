@@ -1,7 +1,7 @@
-import { ICharacter } from "../../../models/character.type";
-import { IGuessResult } from "../../../models/guess-result";
+import { ICharacter } from "../../../models/character";
+import { IGuessResult } from "./guess-result";
 
-export interface IClassicGameState {
+export interface IGameState {
     date: string;
     correctCharacterHash: string;
     guessHistory: IGuessResult[];

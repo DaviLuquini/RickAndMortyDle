@@ -28,11 +28,20 @@
   </div>
 </div>
 
+@if(gameMode == 'classic') {
 <div class="mt-6 space-y-2 overflow-x-auto">
   @for (result of guessHistory(); track result.character.id; let i = $index) {
-  <app-guess-result [result]="result" [showHeaders]="i === 0" />
+  <app-classic-guess-result [result]="result" [showHeaders]="i === 0"></app-classic-guess-result>
   }
 </div>
+} @else {
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-6 p-4 w-full">
+  @for (result of guessHistory(); track result.character.id; let i = $index) {
+  <app-guess-result [result]="result"></app-guess-result>
+  }
+</div>
+}
+
 
 @if (isGameOver()) {
 <div #gameOverElement class="bg-gradient-to-br from-gray-100 to-green-500 border-2 border-green-500 rounded-xl 

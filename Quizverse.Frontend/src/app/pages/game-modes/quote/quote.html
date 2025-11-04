@@ -1,0 +1,7 @@
+<div class="flex flex-col justify-start items-center gap-6 w-full h-full">
+    <app-title></app-title>
+    <div class="flex flex-col justify-center items-center gap-3">
+        <app-card-quote [correctCharacter]="correctCharacter()!"></app-card-quote>
+        <app-character-search [gameMode]="'quote'" [characterSearchService]="characterSearchService"></app-character-search>
+    </div>
+</div>

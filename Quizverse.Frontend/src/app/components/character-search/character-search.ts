@@ -1,145 +1,100 @@
-import { Component, computed, effect, ElementRef, HostListener, inject, OnInit, signal, ViewChild, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { ICharacter } from '../../models/character.type';
-import { CharacterService } from '../../services/characters.service';
+import { Component, computed, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, signal, ViewChild } from '@angular/core';
+import { ICharacter } from '../../models/character';
 import { CommonModule } from '@angular/common';
-import { GuessResultComponent } from './widgets/guess-result/guess-result';
-import { IGuessResult } from '../../models/guess-result';
 import { LucideAngularModule, MessageSquareQuote } from "lucide-angular";
 import { PlayButton } from '../play-button/play-button';
-import { IClassicGameState } from './widgets/classic-game-state';
+import { CharacterSearchService } from '../../services/character-search.service';
+import { IGuessResult } from './models/guess-result';
+import { ClassicGuessResultComponent } from '../../pages/game-modes/classic/widgets/classic-guess-result/classic-guess-result';
+import { GuessResult } from "../../pages/game-modes/widgets/guess-result/guess-result";
 
 @Component({
   selector: 'app-character-search',
-  standalone: true,
-  imports: [CommonModule, GuessResultComponent, PlayButton, LucideAngularModule],
+  imports: [CommonModule, ClassicGuessResultComponent, PlayButton, LucideAngularModule, GuessResult],
   templateUrl: './character-search.html',
   styleUrl: './character-search.scss'
 })
-export class CharacterSearch implements OnInit, OnDestroy {
-  private readonly charactersService = inject(CharacterService);
-  private intervalId?: any;
-  private correctCharacterHash: string | undefined;
+export class CharacterSearch implements OnInit {
   @ViewChild('dropdownWrapper', { read: ElementRef, static: false }) dropdownWrapper?: ElementRef<HTMLElement>;
   @ViewChild('gameOverElement', { read: ElementRef, static: false }) gameOverElement?: ElementRef<HTMLElement>;
-
+  @Output() gameOver = new EventEmitter<void>();
+  @Input({ required: true }) gameMode!: string;
+  @Input({ required: true }) characterSearchService!: CharacterSearchService;
   public readonly MessageSquareQuote = MessageSquareQuote;
   public showIconCircle = false;
-  public characters = toSignal(this.charactersService.getCharacters(100), { initialValue: [] as ICharacter[] });
-  public availableCharacters = signal<ICharacter[]>([]);
-  public correctCharacter = signal<ICharacter | undefined>(undefined);
   public searchText = signal('');
   public showDropdown = signal(false);
+  public isGameOver = signal(false);
   public guessHistory = signal<IGuessResult[]>([]);
   public tries = signal(0);
-  public isGameOver = signal(false);
-  public timeLeft: string = '';
-
-  @Output() triesChange = new EventEmitter<number>();
-  @Output() correctCharacterOutput = new EventEmitter<ICharacter>();
+  public timeLeft = '';
 
   ngOnInit() {
-    this.updateTimeLeft();
-
-    this.intervalId = setInterval(() => {
-      this.updateTimeLeft();
-
-      if (this.timeLeft === '00:00:00') {
-        this.getCharacterOfTheDay();
-        localStorage.removeItem('rickmortydle-game');
-        this.updateTimeLeft();
-      }
-    }, 1000);
+    this.isGameOver = this.characterSearchService.isGameOver;
+    this.guessHistory = this.characterSearchService.guessHistory;
+    this.tries = this.characterSearchService.tries;
+    this.timeLeft = this.characterSearchService.timeLeft;
 
     this.updateShowPlayButtonIcon();
     window.addEventListener('resize', () => this.updateShowPlayButtonIcon());
   }
 
-  constructor() {
-    effect(() => {
-      const allChars = this.characters();
-      if (!allChars || allChars.length === 0) return;
-
-      this.loadGameState();
-      const saved = localStorage.getItem('rickmortydle-game');
-      if (!saved) {
-        this.availableCharacters.set(allChars);
-      }
-
-      if (!this.correctCharacter()) {
-        this.getCharacterOfTheDay();
-      }
-    });
-  }
-
-
-  updateAvailableCharacters(character: ICharacter): void {
-    this.availableCharacters.update(chars => chars.filter(c => c.id !== character.id));
-  }
-
-  getCharacterOfTheDay(): ICharacter | undefined {
-    const chars = this.availableCharacters();
-    if (chars.length === 0) return undefined;
-
-    const today = new Date();
-    const startDate = new Date("2025-01-01");
-    const diffDays = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
-
-
-    const index = diffDays % chars.length;
-    const correctChar = chars[index];
-    this.correctCharacter.set(correctChar);
-    this.correctCharacterOutput.emit(correctChar);
-    console.log(correctChar.name)
-    return correctChar;
-  }
-
   makeGuess(guessedCharacter: ICharacter): void {
-    const correct = this.correctCharacter();
-    if (!correct || this.isGameOver()) return;
+    const correct = this.characterSearchService.correctCharacter();
 
-    const alreadyGuessed = this.guessHistory().some(g => g.character.id === guessedCharacter.id);
+    if (!correct || this.characterSearchService.isGameOver()) return;
+
+    const alreadyGuessed = this.characterSearchService.guessHistory().some(g => g.character.id === guessedCharacter.id);
     if (alreadyGuessed) {
       alert('Personagem já adicionado na lista.');
       return;
     }
 
-    this.tries.update(t => {
+    this.characterSearchService.tries.update(t => {
       const next = t + 1;
-      this.triesChange.emit(next);
+      this.characterSearchService.triesChange.emit(next);
       return next;
     });
 
-    const episodeDiff = Math.abs((guessedCharacter.episodeCount ?? 0) - (correct.episodeCount ?? 0));
-    const isCorrect = btoa(guessedCharacter.id.toString()) === this.correctCharacterHash;
+    const isCorrect = btoa(guessedCharacter.id.toString()) === this.characterSearchService.correctCharacterHash;
 
-    let episodeMatch: 'exact' | 'close' | 'far' = 'far';
-    if (episodeDiff === 0) {
-      episodeMatch = 'exact';
-    } else if (episodeDiff <= 10) {
-      episodeMatch = 'close';
+    let result: IGuessResult;
+    if (this.gameMode == 'classic') {
+      const episodeDiff = Math.abs((guessedCharacter.episodeCount ?? 0) - (correct.episodeCount ?? 0));
+
+      let episodeMatch: 'exact' | 'close' | 'far' = 'far';
+      if (episodeDiff === 0) {
+        episodeMatch = 'exact';
+      } else if (episodeDiff <= 10) {
+        episodeMatch = 'close';
+      }
+
+      result = {
+        character: guessedCharacter,
+        isCorrect,
+        matches: {
+          status: guessedCharacter.status === correct.status,
+          species: guessedCharacter.species === correct.species,
+          gender: guessedCharacter.gender === correct.gender,
+          origin: guessedCharacter.origin.name === correct.origin.name,
+          location: guessedCharacter.location.name === correct.location.name,
+          episodeCount: episodeMatch
+        }
+      };
+    } else {
+      result = {
+        character: guessedCharacter,
+        isCorrect,
+      };
     }
 
-    const result: IGuessResult = {
-      character: guessedCharacter,
-      isCorrect,
-      matches: {
-        status: guessedCharacter.status === correct.status,
-        species: guessedCharacter.species === correct.species,
-        gender: guessedCharacter.gender === correct.gender,
-        origin: guessedCharacter.location.name === correct.location.name,
-        location: guessedCharacter.origin.name === correct.origin.name,
-        episodeCount: episodeMatch
-      }
-    };
-
-    this.guessHistory.update(history => [result, ...history]);
-    this.updateAvailableCharacters(guessedCharacter);
-    this.saveGameState();
+    this.characterSearchService.guessHistory.update(history => [result, ...history]);
+    this.characterSearchService.updateAvailableCharacters(guessedCharacter);
+    this.characterSearchService.saveGameState();
 
     if (isCorrect) {
-      this.isGameOver.set(true);
-      this.saveGameState();
+      this.characterSearchService.isGameOver.set(true);
+      this.characterSearchService.saveGameState();
       setTimeout(() => {
         this.gameOverElement?.nativeElement?.scrollIntoView({
           behavior: 'smooth',
@@ -155,9 +110,9 @@ export class CharacterSearch implements OnInit, OnDestroy {
   filteredInputCharacters = computed(() => {
     const query = this.searchText().toLowerCase();
 
-    if (!query) return this.availableCharacters();
+    if (!query) return this.characterSearchService.availableCharacters();
 
-    return this.availableCharacters()
+    return this.characterSearchService.availableCharacters()
       .filter(character => character.name.toLowerCase().includes(query))
       .sort((a, b) => {
         const nameA = a.name.toLowerCase();
@@ -172,48 +127,6 @@ export class CharacterSearch implements OnInit, OnDestroy {
       });
   });
 
-  private saveGameState(): void {
-    const correct = this.correctCharacter();
-    if (!correct) return;
-
-    const state: IClassicGameState = {
-      date: new Date().toDateString(),
-      correctCharacterHash: btoa(correct.id.toString()),
-      guessHistory: this.guessHistory(),
-      tries: this.tries(),
-      isGameOver: this.isGameOver(),
-      availableCharacters: this.availableCharacters()
-    };
-
-    localStorage.setItem('rickmortydle-game', JSON.stringify(state));
-  }
-
-  private loadGameState(): void {
-    const saved = localStorage.getItem('rickmortydle-game');
-    if (!saved) return;
-
-    const state: IClassicGameState = JSON.parse(saved);
-    const today = new Date().toDateString();
-
-    if (state.date === today) {
-      this.correctCharacterHash = state.correctCharacterHash;
-      const correctCharId = Number.parseInt(atob(state.correctCharacterHash), 10);
-      const allChars = this.characters();
-      const correctChar = allChars.find(c => c.id === correctCharId);
-      this.correctCharacter.set(correctChar);
-      this.correctCharacterOutput.emit(correctChar);
-
-      this.guessHistory.set(state.guessHistory);
-      this.tries.set(state.tries);
-      this.triesChange.emit(this.tries());
-      this.isGameOver.set(state.isGameOver);
-      this.availableCharacters.set(state.availableCharacters);
-    } else {
-      localStorage.removeItem('rickmortydle-game');
-    }
-  }
-
-
   @HostListener('document:click', ['$event'])
   handleClickOutside(event: MouseEvent): void {
     const el = this.dropdownWrapper?.nativeElement;
@@ -224,30 +137,7 @@ export class CharacterSearch implements OnInit, OnDestroy {
     }
   }
 
-  private updateTimeLeft(): void {
-    const now = new Date();
-    const nextMidnight = new Date(now);
-    nextMidnight.setHours(24, 0, 0, 0);
-
-    const diffMs = nextMidnight.getTime() - now.getTime();
-    const hours = Math.floor(diffMs / (1000 * 60 * 60));
-    const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diffMs % (1000 * 60)) / 1000);
-
-    this.timeLeft = `${this.pad(hours)}:${this.pad(minutes)}:${this.pad(seconds)}`;
-  }
-
-  private pad(num: number): string {
-    return num.toString().padStart(2, '0');
-  }
-
   updateShowPlayButtonIcon() {
     this.showIconCircle = window.innerWidth >= 1024;
-  }
-
-  ngOnDestroy() {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
   }
 }

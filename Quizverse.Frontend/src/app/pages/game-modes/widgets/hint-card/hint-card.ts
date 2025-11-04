@@ -1,6 +1,6 @@
 import { Component, Input, signal } from '@angular/core';
 import { LucideAngularModule, Image, Lightbulb } from "lucide-angular";
-import { ICharacter } from '../../../../../models/character.type';
+import { ICharacter } from '../../../../models/character';
 
 @Component({
   selector: 'app-hint-card',

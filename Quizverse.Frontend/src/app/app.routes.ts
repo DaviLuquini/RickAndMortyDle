@@ -14,6 +14,13 @@ export const routes: Routes = [
             ),
     },
     {
+        path: "quote",
+        loadComponent: () =>
+            import("./pages/game-modes/quote/quote").then(
+                (m) => m.Quote
+            ),
+    },
+    {
         path: "privacy-policy",
         loadComponent: () =>
             import("./pages/privacy-policy/privacy-policy").then(

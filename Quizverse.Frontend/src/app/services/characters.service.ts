@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, map, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ICharacter, ICharactersApiResponse } from '../models/character.type';
+import { ICharacter, ICharactersApiResponse } from '../models/character';
 
 @Injectable({
     providedIn: 'root'
