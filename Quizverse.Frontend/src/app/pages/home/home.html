@@ -12,12 +12,12 @@
             <span class="text-xl">Quote</span>
             <span class="text-base lg:text-lg">Guess with in-series quotes</span>
         </app-play-button>
-        <app-play-button customStyle="disabled">
+        <app-play-button (keypress)="navigateTo('emoji')" (click)="navigateTo('emoji')">
             <lucide-icon icon class="w-9 h-9" [img]="Laugh"></lucide-icon>
             <span class="text-xl">Emoji</span>
             <span class="text-base lg:text-lg">Guess with a set of emojis</span>
         </app-play-button>
-        <app-play-button customStyle="disabled">
+        <app-play-button (keypress)="navigateTo('splash')" (click)="navigateTo('splash')">
             <lucide-icon icon class="w-9 h-9" [img]="Image"></lucide-icon>
             <span class="text-xl">Splash</span>
             <span class="text-base lg:text-lg">Guess from an image</span>

@@ -5,6 +5,8 @@ import { CharacterService } from "./characters.service";
 import { IGameState } from "../components/character-search/models/game-state";
 import { IGuessResult } from "../components/character-search/models/guess-result";
 import { characterQuotes } from "../models/characters-quotes";
+import { characterEmojis } from "../models/characters-emojis";
+import { characterSplashs } from "../models/characters-splashs";
 
 @Injectable({
     providedIn: 'any'
@@ -37,11 +39,8 @@ export class CharacterSearchService implements OnDestroy {
 
         if (cached) {
             const cachedChars = JSON.parse(cached) as ICharacter[];
-            if (this.gameMode == 'quote') {
-                for (const c of cachedChars) {
-                    c.quote = characterQuotes[c.id];
-                }
-            }
+
+            this.filterGameModeItems(cachedChars);
 
             this.characters.set(cachedChars);
             this.availableCharacters.set(cachedChars);
@@ -91,6 +90,14 @@ export class CharacterSearchService implements OnDestroy {
 
         if (this.gameMode == 'quote') {
             chars = chars.filter(c => c.quote);
+        }
+
+        if (this.gameMode == 'emoji') {
+            chars = chars.filter(c => c.emoji);
+        }
+
+        if (this.gameMode == 'splash') {
+            chars = chars.filter(c => c.splash);
         }
 
         const today = new Date();
@@ -146,6 +153,26 @@ export class CharacterSearchService implements OnDestroy {
             this.availableCharacters.set(state.availableCharacters);
         } else {
             localStorage.removeItem(`rickmortydle-game-${this.gameMode}`);
+        }
+    }
+
+    private filterGameModeItems(characters: ICharacter[]): void {
+        if (this.gameMode == 'quote') {
+            for (const c of characters) {
+                c.quote = characterQuotes[c.id];
+            }
+        }
+
+        if (this.gameMode == 'emoji') {
+            for (const c of characters) {
+                c.emoji = characterEmojis[c.id];
+            }
+        }
+
+        if (this.gameMode == 'splash') {
+            for (const c of characters) {
+                c.splash = characterSplashs[c.id];
+            }
         }
     }
 

@@ -21,6 +21,20 @@ export const routes: Routes = [
             ),
     },
     {
+        path: "emoji",
+        loadComponent: () =>
+            import("./pages/game-modes/emoji/emoji").then(
+                (m) => m.Emoji
+            ),
+    },
+    {
+        path: "splash",
+        loadComponent: () =>
+            import("./pages/game-modes/splash/splash").then(
+                (m) => m.Splash
+            ),
+    },
+    {
         path: "privacy-policy",
         loadComponent: () =>
             import("./pages/privacy-policy/privacy-policy").then(

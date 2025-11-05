@@ -53,10 +53,40 @@
     Next character in: <span class="text-base lg:text-xl font-bold">{{ timeLeft }}</span>
   </span>
   <p class="text-sm lg:text-lg font-bold">Next mode:</p>
-  <app-play-button [customStyle]="'h-12! w-65! lg:min-w-95! lg:max-w-95! lg:h-20!'" [showIconCircle]="showIconCircle">
-    <lucide-icon icon class=" w-8 h-8" [img]="MessageSquareQuote"></lucide-icon>
+  @switch (gameMode) {
+  @case ('classic') {
+  <app-play-button [customStyle]="'h-12! w-65! lg:min-w-95! lg:max-w-95! lg:h-20!'" [showIconCircle]="showIconCircle"
+    (keypress)="navigateTo('quote')" (click)="navigateTo('quote')">
+    <lucide-icon icon class="w-8 h-8" [img]="MessageSquareQuote"></lucide-icon>
     <span class="text-base lg:text-xl whitespace-nowrap">Quote</span>
     <span class="text-base lg:text-base whitespace-nowrap">Guess with in-series quotes</span>
   </app-play-button>
+  }
+  @case ('quote') {
+  <app-play-button [customStyle]="'h-12! w-65! lg:min-w-95! lg:max-w-95! lg:h-20!'" [showIconCircle]="showIconCircle"
+    (keypress)="navigateTo('emoji')" (click)="navigateTo('emoji')">
+    <lucide-icon icon class="w-8 h-8" [img]="Laugh"></lucide-icon>
+    <span class="text-base lg:text-xl whitespace-nowrap">Emoji</span>
+    <span class="text-base lg:text-base whitespace-nowrap">Guess with a set of emojis</span>
+  </app-play-button>
+  }
+  @case ('emoji') {
+  <app-play-button [customStyle]="'h-12! w-65! lg:min-w-95! lg:max-w-95! lg:h-20!'" [showIconCircle]="showIconCircle"
+    (keypress)="navigateTo('splash')" (click)="navigateTo('splash')">
+    <lucide-icon icon class="w-8 h-8" [img]="Image"></lucide-icon>
+    <span class="text-base lg:text-xl whitespace-nowrap">Splash</span>
+    <span class="text-base lg:text-base whitespace-nowrap">Guess from an image</span>
+  </app-play-button>
+  }
+  @case ('splash') {
+  <app-play-button [customStyle]="'h-12! w-65! lg:min-w-95! lg:max-w-95! lg:h-20!'" [showIconCircle]="showIconCircle"
+    (keypress)="navigateTo('classic')" (click)="navigateTo('classic')">
+    <lucide-icon icon class="w-8 h-8" [img]="Landmark"></lucide-icon>
+    <span class="text-base lg:text-xl whitespace-nowrap">Classic Mode</span>
+    <span class="text-base lg:text-base whitespace-nowrap">Get clues on every try</span>
+  </app-play-button>
+  }
+  }
+
 </div>
 }

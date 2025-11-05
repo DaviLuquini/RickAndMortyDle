@@ -22,6 +22,8 @@ export interface ICharacter {
   created: string;
   episodeCount: number;
   quote?: string;
+  emoji?: string[];
+  splash?: string;
 }
 
 export interface ICharactersApiResponse {

@@ -1,12 +1,13 @@
 import { Component, computed, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, signal, ViewChild } from '@angular/core';
 import { ICharacter } from '../../models/character';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule, MessageSquareQuote } from "lucide-angular";
+import { Image, Landmark, Laugh, LucideAngularModule, MessageSquareQuote } from "lucide-angular";
 import { PlayButton } from '../play-button/play-button';
 import { CharacterSearchService } from '../../services/character-search.service';
 import { IGuessResult } from './models/guess-result';
 import { ClassicGuessResultComponent } from '../../pages/game-modes/classic/widgets/classic-guess-result/classic-guess-result';
 import { GuessResult } from "../../pages/game-modes/widgets/guess-result/guess-result";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-character-search',
@@ -21,6 +22,9 @@ export class CharacterSearch implements OnInit {
   @Input({ required: true }) gameMode!: string;
   @Input({ required: true }) characterSearchService!: CharacterSearchService;
   public readonly MessageSquareQuote = MessageSquareQuote;
+  public readonly Laugh = Laugh;
+  public readonly Image = Image;
+  public readonly Landmark = Landmark;
   public showIconCircle = false;
   public searchText = signal('');
   public showDropdown = signal(false);
@@ -28,6 +32,8 @@ export class CharacterSearch implements OnInit {
   public guessHistory = signal<IGuessResult[]>([]);
   public tries = signal(0);
   public timeLeft = '';
+
+  constructor(private readonly router: Router) { }
 
   ngOnInit() {
     this.isGameOver = this.characterSearchService.isGameOver;
@@ -139,5 +145,9 @@ export class CharacterSearch implements OnInit {
 
   updateShowPlayButtonIcon() {
     this.showIconCircle = window.innerWidth >= 1024;
+  }
+
+  navigateTo(url: string) {
+    this.router.navigate([url]);
   }
 }
