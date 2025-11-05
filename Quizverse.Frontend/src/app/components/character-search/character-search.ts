@@ -116,9 +116,12 @@ export class CharacterSearch implements OnInit {
   filteredInputCharacters = computed(() => {
     const query = this.searchText().toLowerCase();
 
-    if (!query) return this.characterSearchService.availableCharacters();
+    const available = this.characterSearchService.availableCharacters();
+    if (!Array.isArray(available)) return [];
 
-    return this.characterSearchService.availableCharacters()
+    if (!query) return available;
+
+    return available
       .filter(character => character.name.toLowerCase().includes(query))
       .sort((a, b) => {
         const nameA = a.name.toLowerCase();
