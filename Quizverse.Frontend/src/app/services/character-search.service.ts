@@ -86,7 +86,10 @@ export class CharacterSearchService implements OnDestroy {
 
     getCharacterOfTheDay(): ICharacter | undefined {
         let chars = this.availableCharacters();
-        if (chars.length === 0) return undefined;
+        
+        if (!chars || !Array.isArray(chars) || chars.length === 0) {
+            return;
+        }
 
         if (this.gameMode == 'quote') {
             chars = chars.filter(c => c.quote);
@@ -156,7 +159,12 @@ export class CharacterSearchService implements OnDestroy {
         }
     }
 
-    private filterGameModeItems(characters: ICharacter[]): void {
+    private filterGameModeItems(characters: ICharacter[]) {
+
+        if (!characters || !Array.isArray(characters)) {
+            return;
+        }
+
         if (this.gameMode == 'quote') {
             for (const c of characters) {
                 c.quote = characterQuotes[c.id];
