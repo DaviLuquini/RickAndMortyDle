@@ -16,6 +16,7 @@ export class Splash {
   public correctCharacter = this.characterSearchService.correctCharacter;
   public tries = this.characterSearchService.tries;
   public characters = this.characterSearchService.characters;
+  public isGameOver = this.characterSearchService.isGameOver;
 
   constructor() {
     this.characterSearchService.initialize('splash');
