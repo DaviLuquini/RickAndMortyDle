@@ -9,7 +9,7 @@ import { IGuessResult } from '../../../../../components/character-search/models/
   styleUrl: './classic-guess-result.scss'
 })
 export class ClassicGuessResultComponent {
-  @Input({ required: true }) result!: IGuessResult;
+  @Input({ required: true }) result?: IGuessResult;
   @Input() showHeaders = false;
 
   getMatchColor(): string {

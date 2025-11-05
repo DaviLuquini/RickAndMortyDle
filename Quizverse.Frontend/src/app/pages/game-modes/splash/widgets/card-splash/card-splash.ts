@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class CardSplash {
   @Input({ required: true }) tries = 0;
-  @Input({ required: true }) correctCharacter!: ICharacter;
+  @Input({ required: true }) correctCharacter?: ICharacter;
 
   get zoomScale(): string {
     const scale = Math.max(6 - this.tries * 0.45, 1);

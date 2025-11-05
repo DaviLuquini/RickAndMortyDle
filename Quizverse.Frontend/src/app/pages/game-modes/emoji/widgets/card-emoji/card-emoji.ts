@@ -9,11 +9,11 @@ import { ICharacter } from '../../../../../models/character';
 })
 export class CardEmoji {
   @Input({ required: true }) tries = 0;
-  @Input({ required: true }) correctCharacter!: ICharacter;
+  @Input({ required: true }) correctCharacter?: ICharacter;
 
   showEmoji(triesRequired: number, emojiIndex: number): string {
     return this.tries >= triesRequired
-      ? this.correctCharacter.emoji?.[emojiIndex] ?? "?"
+      ? this.correctCharacter?.emoji?.[emojiIndex] ?? "?"
       : "?";
   }
 }

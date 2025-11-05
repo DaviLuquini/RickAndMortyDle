@@ -8,5 +8,5 @@ import { ICharacter } from '../../../../../models/character';
   styleUrl: './card-quote.scss'
 })
 export class CardQuote {
-  @Input({ required: true }) correctCharacter!: ICharacter;
+  @Input({ required: true }) correctCharacter?: ICharacter;
 }

@@ -86,7 +86,7 @@ export class CharacterSearchService implements OnDestroy {
 
     getCharacterOfTheDay(): ICharacter | undefined {
         let chars = this.availableCharacters();
-        
+
         if (!chars || !Array.isArray(chars) || chars.length === 0) {
             return;
         }
@@ -153,7 +153,11 @@ export class CharacterSearchService implements OnDestroy {
             this.tries.set(state.tries);
             this.triesChange.emit(this.tries());
             this.isGameOver.set(state.isGameOver);
-            this.availableCharacters.set(state.availableCharacters);
+            if (Array.isArray(state.availableCharacters)) {
+                this.availableCharacters.set(state.availableCharacters);
+            } else {
+                this.availableCharacters.set([]);
+            }
         } else {
             localStorage.removeItem(`rickmortydle-game-${this.gameMode}`);
         }
