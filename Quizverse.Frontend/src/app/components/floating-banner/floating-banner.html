@@ -1,9 +1,10 @@
 ﻿@if (isVisible()) {
+  @let t = copy();
   <div class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 transition-all duration-300 ease-out select-none">
     @if (!isMinimized()) {
       <!-- Expanded Calorita Floating Ad Card -->
       <aside
-        aria-label="Calorita - Contador de calorias com IA"
+        [attr.aria-label]="t.ariaLabel"
         class="calorita-enter w-[calc(100vw-2rem)] sm:w-[376px] bg-[#fbf6ec] text-[#1d2b15] rounded-[1.75rem] border-2 border-[#17300e] shadow-[6px_6px_0_#17300e] p-4 flex flex-col gap-3.5 relative overflow-hidden group">
 
         <!-- Ambient Warm Lime & Leaf Glow -->
@@ -25,7 +26,7 @@
             </span>
             <lucide-icon [img]="Sparkles" class="w-3.5 h-3.5 text-[#3d7a1b]"></lucide-icon>
             <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#17300e]">
-              Calorita AI • Grátis
+              {{ t.badge }}
             </span>
           </div>
 
@@ -33,16 +34,16 @@
             <button
               type="button"
               (click)="toggleMinimize($event)"
-              title="Minimizar anúncio"
-              aria-label="Minimizar anúncio"
+              [title]="t.minimizeLabel"
+              [attr.aria-label]="t.minimizeLabel"
               class="cursor-pointer text-[#46553c] hover:text-[#17300e] p-1.5 rounded-full hover:bg-[#ece5d5] transition-colors">
               <lucide-icon [img]="ChevronDown" class="w-4 h-4"></lucide-icon>
             </button>
             <button
               type="button"
               (click)="close($event)"
-              title="Fechar anúncio"
-              aria-label="Fechar anúncio"
+              [title]="t.closeLabel"
+              [attr.aria-label]="t.closeLabel"
               class="cursor-pointer text-[#46553c] hover:text-[#c8462e] p-1.5 rounded-full hover:bg-[#f4dcd5] transition-colors">
               <lucide-icon [img]="X" class="w-4 h-4"></lucide-icon>
             </button>
@@ -55,7 +56,7 @@
             <div class="w-14 h-14 rounded-2xl border-2 border-[#17300e] shadow-[3px_3px_0_#17300e] overflow-hidden bg-[#eef5df]">
               <img
                 src="assets/images/calorita-logo.webp"
-                alt="Mascote Calorita"
+                [alt]="t.mascotAlt"
                 width="56"
                 height="56"
                 class="w-full h-full object-cover" />
@@ -69,34 +70,30 @@
 
           <div class="flex-1 min-w-0 flex flex-col gap-1">
             <h3 class="text-[15px] sm:text-base font-extrabold leading-snug text-[#1d2b15]">
-              Quer
+              {{ t.headlineBefore }}
               <span class="inline-block bg-[#d6f06d] border border-[#17300e] rounded-full px-2 py-0.5 text-[#17300e] leading-tight">
-                contar calorias
+                {{ t.headlineHighlight }}
               </span>
-              sem esforço?
+              {{ t.headlineAfter }}
             </h3>
             <p class="text-xs sm:text-[13px] leading-relaxed text-[#46553c] font-medium">
-              Tire uma foto do prato e a IA calcula calorias e macros em segundos!
+              {{ t.description }}
             </p>
           </div>
         </div>
 
         <!-- Feature Chips Row -->
         <div class="flex flex-wrap items-center gap-1.5 relative z-10">
-          <span class="inline-flex items-center gap-1 text-[11px] font-bold text-[#17300e] bg-white border-[1.5px] border-[#17300e]/85 rounded-full px-2.5 py-1 shadow-[2px_2px_0_rgba(23,48,14,0.12)]">
-            📸 Foto ou texto
-          </span>
-          <span class="inline-flex items-center gap-1 text-[11px] font-bold text-[#17300e] bg-white border-[1.5px] border-[#17300e]/85 rounded-full px-2.5 py-1 shadow-[2px_2px_0_rgba(23,48,14,0.12)]">
-            🍛 Comida brasileira
-          </span>
-          <span class="inline-flex items-center gap-1 text-[11px] font-bold text-[#17300e] bg-white border-[1.5px] border-[#17300e]/85 rounded-full px-2.5 py-1 shadow-[2px_2px_0_rgba(23,48,14,0.12)]">
-            🔥 Metas e macros
-          </span>
+          @for (chip of t.chips; track chip) {
+            <span class="inline-flex items-center gap-1 text-[11px] font-bold text-[#17300e] bg-white border-[1.5px] border-[#17300e]/85 rounded-full px-2.5 py-1 shadow-[2px_2px_0_rgba(23,48,14,0.12)]">
+              {{ chip }}
+            </span>
+          }
         </div>
 
         <!-- Primary CTA Button -->
         <a
-          [href]="targetUrl"
+          [href]="targetUrl()"
           target="_blank"
           rel="noopener noreferrer"
           class="relative z-10 w-full flex items-center justify-center gap-2.5 px-4 py-3 rounded-full bg-[#d6f06d] hover:bg-[#c9e855] text-[#17300e] font-extrabold text-sm border-2 border-[#17300e] shadow-[4px_4px_0_#17300e] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[6px_6px_0_#17300e] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 cursor-pointer">
@@ -109,7 +106,7 @@
             <path fill="#FF3D00" d="M17.204 15.411L13.793 12 3.61 22.186c.336.322.845.415 1.337.136l12.257-6.911z" />
             <path fill="#FFC400" d="M17.204 8.589L4.947 1.678c-.492-.279-1.001-.186-1.337.136L13.793 12l3.411-3.411z" />
           </svg>
-          <span>Baixar grátis no Google Play</span>
+          <span>{{ t.cta }}</span>
           <lucide-icon [img]="ExternalLink" class="w-4 h-4 shrink-0"></lucide-icon>
         </a>
       </aside>
@@ -118,15 +115,15 @@
       <button
         type="button"
         (click)="toggleMinimize($event)"
-        aria-label="Expandir anúncio do Calorita"
+        [attr.aria-label]="t.expandLabel"
         class="calorita-enter cursor-pointer flex items-center gap-2.5 pl-2 pr-3.5 py-1.5 rounded-full bg-[#fbf6ec] text-[#17300e] border-2 border-[#17300e] shadow-[4px_4px_0_#17300e] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_#17300e] transition-all duration-200 group">
         <img
           src="assets/images/calorita-logo.webp"
-          alt="Calorita"
+          [alt]="t.mascotAlt"
           width="28"
           height="28"
           class="w-7 h-7 rounded-full border border-[#17300e] object-cover shrink-0" />
-        <span class="text-xs font-extrabold text-[#1d2b15]">Contar calorias com IA</span>
+        <span class="text-xs font-extrabold text-[#1d2b15]">{{ t.minimizedText }}</span>
         <span class="bg-[#d6f06d] border border-[#17300e] px-2 py-0.5 rounded-full text-[11px] font-extrabold text-[#17300e]">
           Calorita
         </span>
