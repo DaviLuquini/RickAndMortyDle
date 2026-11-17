@@ -1,97 +1,137 @@
-﻿@if (false) {
+﻿@if (isVisible()) {
   <div class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 transition-all duration-300 ease-out select-none">
-    
     @if (!isMinimized()) {
-      <!-- Expanded Banner Card -->
-      <aside 
-        aria-label="DL Digital - Desenvolvimento Web"
-        class="w-[calc(100vw-2rem)] sm:w-[380px] bg-slate-950/90 backdrop-blur-md text-white rounded-2xl border-2 border-[#08BAE3]/60 shadow-[0_0_25px_rgba(8,186,227,0.35)] hover:shadow-[0_0_30px_rgba(151,206,76,0.45)] transition-all duration-300 p-4 flex flex-col gap-3 relative overflow-hidden group">
-        
-        <!-- Background Neon Ambient Glow -->
-        <div class="absolute -top-12 -right-12 w-28 h-28 bg-[#08BAE3]/20 rounded-full blur-2xl pointer-events-none group-hover:bg-[#97ce4c]/25 transition-all duration-500"></div>
-        <div class="absolute -bottom-12 -left-12 w-28 h-28 bg-[#97ce4c]/20 rounded-full blur-2xl pointer-events-none group-hover:bg-[#08BAE3]/25 transition-all duration-500"></div>
+      <!-- Expanded Calorita Floating Ad Card -->
+      <aside
+        aria-label="Calorita - Contador de calorias com IA"
+        class="calorita-enter w-[calc(100vw-2rem)] sm:w-[376px] bg-[#fbf6ec] text-[#1d2b15] rounded-[1.75rem] border-2 border-[#17300e] shadow-[6px_6px_0_#17300e] p-4 flex flex-col gap-3.5 relative overflow-hidden group">
 
-        <!-- Header: Badge + Action Controls -->
-        <div class="flex items-center justify-between gap-2 border-b border-slate-800/80 pb-2.5 relative z-10">
-          <div class="flex items-center gap-2">
-            <span class="relative flex h-2.5 w-2.5">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#97ce4c] opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#97ce4c]"></span>
+        <!-- Ambient Warm Lime & Leaf Glow -->
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute -top-12 -right-12 w-32 h-32 rounded-full bg-[#d6f06d]/55 blur-2xl transition-opacity duration-500 group-hover:opacity-90">
+        </div>
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute -bottom-14 -left-10 w-28 h-28 rounded-full bg-[#6fae34]/20 blur-2xl">
+        </div>
+
+        <!-- Top Bar: Badge + Window Controls -->
+        <div class="flex items-center justify-between gap-2 relative z-10">
+          <div class="inline-flex items-center gap-1.5 bg-[#f8ebc9] border-[1.5px] border-[#17300e] rounded-full px-2.5 py-0.5 shadow-[2px_2px_0_rgba(23,48,14,0.16)]">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#6fae34] opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-[#6fae34]"></span>
             </span>
-            <span class="text-xs font-semibold uppercase tracking-wider text-[#08BAE3] flex items-center gap-1">
-              <lucide-icon [img]="Sparkles" class="w-3.5 h-3.5 text-[#FFF765]"></lucide-icon>
-              DL Digital
+            <lucide-icon [img]="Sparkles" class="w-3.5 h-3.5 text-[#3d7a1b]"></lucide-icon>
+            <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#17300e]">
+              Calorita AI • Grátis
             </span>
-            <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-medium">Web Dev</span>
           </div>
 
           <div class="flex items-center gap-1">
-            <!-- Minimize Button -->
-            <button 
+            <button
               type="button"
               (click)="toggleMinimize($event)"
-              title="Minimizar banner"
-              aria-label="Minimizar banner"
-              class="cursor-pointer text-slate-400 hover:text-white p-1 rounded-md hover:bg-slate-800/70 transition-colors">
+              title="Minimizar anúncio"
+              aria-label="Minimizar anúncio"
+              class="cursor-pointer text-[#46553c] hover:text-[#17300e] p-1.5 rounded-full hover:bg-[#ece5d5] transition-colors">
               <lucide-icon [img]="ChevronDown" class="w-4 h-4"></lucide-icon>
             </button>
-            <!-- Close Button -->
-            <button 
+            <button
               type="button"
               (click)="close($event)"
-              title="Fechar banner"
-              aria-label="Fechar banner"
-              class="cursor-pointer text-slate-400 hover:text-red-400 p-1 rounded-md hover:bg-slate-800/70 transition-colors">
+              title="Fechar anúncio"
+              aria-label="Fechar anúncio"
+              class="cursor-pointer text-[#46553c] hover:text-[#c8462e] p-1.5 rounded-full hover:bg-[#f4dcd5] transition-colors">
               <lucide-icon [img]="X" class="w-4 h-4"></lucide-icon>
             </button>
           </div>
         </div>
 
-        <!-- Bilingual Message Body -->
-        <div class="flex flex-col gap-2 relative z-10 text-sm">
-          <!-- Portuguese text -->
-          <div class="flex items-start gap-2 text-slate-100">
-            <span class="text-base leading-tight select-none">🇧🇷</span>
-            <p class="leading-snug font-medium">
-              Quer ter um site igual a esse?
-            </p>
+        <!-- Main Content: Mascot Icon + Pitch -->
+        <div class="flex items-start gap-3.5 relative z-10">
+          <div class="relative shrink-0">
+            <div class="w-14 h-14 rounded-2xl border-2 border-[#17300e] shadow-[3px_3px_0_#17300e] overflow-hidden bg-[#eef5df]">
+              <img
+                src="assets/images/calorita-logo.webp"
+                alt="Mascote Calorita"
+                width="56"
+                height="56"
+                class="w-full h-full object-cover" />
+            </div>
+            <span
+              aria-hidden="true"
+              class="absolute -bottom-1.5 -right-1.5 w-6 h-6 rounded-full bg-[#fbf6ec] border-[1.5px] border-[#17300e] shadow-[1px_1px_0_#17300e] flex items-center justify-center text-xs leading-none">
+              📸
+            </span>
           </div>
 
-          <!-- English text -->
-          <div class="flex items-start gap-2 text-slate-300">
-            <span class="text-base leading-tight select-none">🇺🇸</span>
-            <p class="leading-snug text-xs sm:text-sm font-normal text-slate-300">
-              Want a website like this?
+          <div class="flex-1 min-w-0 flex flex-col gap-1">
+            <h3 class="text-[15px] sm:text-base font-extrabold leading-snug text-[#1d2b15]">
+              Quer
+              <span class="inline-block bg-[#d6f06d] border border-[#17300e] rounded-full px-2 py-0.5 text-[#17300e] leading-tight">
+                contar calorias
+              </span>
+              sem esforço?
+            </h3>
+            <p class="text-xs sm:text-[13px] leading-relaxed text-[#46553c] font-medium">
+              Tire uma foto do prato e a IA calcula calorias e macros em segundos!
             </p>
           </div>
         </div>
 
-        <!-- CTA Link with UTM -->
-        <a 
+        <!-- Feature Chips Row -->
+        <div class="flex flex-wrap items-center gap-1.5 relative z-10">
+          <span class="inline-flex items-center gap-1 text-[11px] font-bold text-[#17300e] bg-white border-[1.5px] border-[#17300e]/85 rounded-full px-2.5 py-1 shadow-[2px_2px_0_rgba(23,48,14,0.12)]">
+            📸 Foto ou texto
+          </span>
+          <span class="inline-flex items-center gap-1 text-[11px] font-bold text-[#17300e] bg-white border-[1.5px] border-[#17300e]/85 rounded-full px-2.5 py-1 shadow-[2px_2px_0_rgba(23,48,14,0.12)]">
+            🍛 Comida brasileira
+          </span>
+          <span class="inline-flex items-center gap-1 text-[11px] font-bold text-[#17300e] bg-white border-[1.5px] border-[#17300e]/85 rounded-full px-2.5 py-1 shadow-[2px_2px_0_rgba(23,48,14,0.12)]">
+            🔥 Metas e macros
+          </span>
+        </div>
+
+        <!-- Primary CTA Button -->
+        <a
           [href]="targetUrl"
           target="_blank"
           rel="noopener noreferrer"
-          class="relative z-10 w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#97ce4c] via-[#08BAE3] to-[#97ce4c] bg-[length:200%_auto] hover:bg-right text-slate-950 font-bold text-sm tracking-wide shadow-[0_0_15px_rgba(8,186,227,0.35)] hover:shadow-[0_0_25px_rgba(151,206,76,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 cursor-pointer text-center">
-          <span>Acesse aqui / Click here</span>
-          <lucide-icon [img]="ExternalLink" class="w-4 h-4"></lucide-icon>
+          class="relative z-10 w-full flex items-center justify-center gap-2.5 px-4 py-3 rounded-full bg-[#d6f06d] hover:bg-[#c9e855] text-[#17300e] font-extrabold text-sm border-2 border-[#17300e] shadow-[4px_4px_0_#17300e] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[6px_6px_0_#17300e] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 cursor-pointer">
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            class="w-4 h-4 shrink-0">
+            <path fill="#00C853" d="M3.61 1.814L13.793 12 3.61 22.186a1.48 1.48 0 0 1-.46-1.086V2.9c0-.42.172-.8.46-1.086z" />
+            <path fill="#00B0FF" d="M17.204 8.589L13.793 12l3.411 3.411 3.854-2.192c.81-.46.81-1.638 0-2.098l-3.854-2.532z" />
+            <path fill="#FF3D00" d="M17.204 15.411L13.793 12 3.61 22.186c.336.322.845.415 1.337.136l12.257-6.911z" />
+            <path fill="#FFC400" d="M17.204 8.589L4.947 1.678c-.492-.279-1.001-.186-1.337.136L13.793 12l3.411-3.411z" />
+          </svg>
+          <span>Baixar grátis no Google Play</span>
+          <lucide-icon [img]="ExternalLink" class="w-4 h-4 shrink-0"></lucide-icon>
         </a>
-
       </aside>
     } @else {
       <!-- Minimized Floating Pill -->
-      <button 
+      <button
         type="button"
         (click)="toggleMinimize($event)"
-        class="cursor-pointer flex items-center gap-2.5 px-3.5 py-2 rounded-full bg-slate-950/95 backdrop-blur-md text-white border border-[#08BAE3]/80 shadow-[0_0_20px_rgba(8,186,227,0.4)] hover:shadow-[0_0_25px_rgba(151,206,76,0.5)] hover:scale-105 transition-all duration-300 group">
-        <span class="relative flex h-2 w-2">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#97ce4c] opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-[#97ce4c]"></span>
+        aria-label="Expandir anúncio do Calorita"
+        class="calorita-enter cursor-pointer flex items-center gap-2.5 pl-2 pr-3.5 py-1.5 rounded-full bg-[#fbf6ec] text-[#17300e] border-2 border-[#17300e] shadow-[4px_4px_0_#17300e] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_#17300e] transition-all duration-200 group">
+        <img
+          src="assets/images/calorita-logo.webp"
+          alt="Calorita"
+          width="28"
+          height="28"
+          class="w-7 h-7 rounded-full border border-[#17300e] object-cover shrink-0" />
+        <span class="text-xs font-extrabold text-[#1d2b15]">Contar calorias com IA</span>
+        <span class="bg-[#d6f06d] border border-[#17300e] px-2 py-0.5 rounded-full text-[11px] font-extrabold text-[#17300e]">
+          Calorita
         </span>
-        <lucide-icon [img]="Sparkles" class="w-4 h-4 text-[#FFF765] group-hover:rotate-12 transition-transform"></lucide-icon>
-        <span class="text-xs font-semibold text-[#08BAE3]">DL Digital • Quer um site? / Want a site?</span>
-        <lucide-icon [img]="ChevronUp" class="w-3.5 h-3.5 text-slate-400 group-hover:text-white"></lucide-icon>
+        <lucide-icon [img]="ChevronUp" class="w-3.5 h-3.5 text-[#46553c] group-hover:text-[#17300e] transition-colors"></lucide-icon>
       </button>
     }
-
   </div>
 }

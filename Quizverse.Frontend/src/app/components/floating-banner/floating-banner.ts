@@ -1,19 +1,31 @@
 ﻿import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ExternalLink, Sparkles, X, Globe, ChevronDown, ChevronUp } from 'lucide-angular';
-import { LucideAngularModule } from 'lucide-angular';
+import {
+  LucideAngularModule,
+  ExternalLink,
+  Sparkles,
+  X,
+  Camera,
+  Flame,
+  Check,
+  ChevronDown,
+  ChevronUp,
+} from 'lucide-angular';
 
+/** Floating promotional banner for the Calorita calorie counter app. */
 @Component({
   selector: 'app-floating-banner',
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './floating-banner.html',
-  styleUrl: './floating-banner.scss'
+  styleUrl: './floating-banner.scss',
 })
 export class FloatingBanner {
   public readonly ExternalLink = ExternalLink;
   public readonly Sparkles = Sparkles;
   public readonly X = X;
-  public readonly Globe = Globe;
+  public readonly Camera = Camera;
+  public readonly Flame = Flame;
+  public readonly Check = Check;
   public readonly ChevronDown = ChevronDown;
   public readonly ChevronUp = ChevronUp;
 
@@ -21,7 +33,7 @@ export class FloatingBanner {
   public isMinimized = signal(false);
 
   public readonly targetUrl =
-    'https://dldigitalsa.com.br/?utm_source=rickandmortydle&utm_medium=floating_banner&utm_campaign=portfolio_referral';
+    'https://play.google.com/store/apps/details?id=app.calorita&hl=pt_BR';
 
   toggleMinimize(event?: Event) {
     if (event) {
